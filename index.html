@@ -1,115 +1,79 @@
-<!DOCTYPE html>
+=<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Over-Compliance</title>
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link
-    href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@300;400;500&display=swap"
-    rel="stylesheet"
-  >
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@300;400;500&display=swap" rel="stylesheet">
 
   <link rel="stylesheet" href="style.css" />
 </head>
+
 <body>
-  <div class="page-progress" id="pageProgress"></div>
+  <div class="progress" id="progress"></div>
 
-  <main class="site">
-    <section class="stage" id="stage">
-      <div class="screen-shell">
-        <div class="screen-label top-left">OVER-COMPLIANCE</div>
-        <div class="screen-label top-right">A PROTOCOL OF EVERYDAY COMMANDS</div>
+  <section class="stage" id="stage">
 
-        <div class="screen" id="screen">
-          <!-- HERO VIDEO -->
-          <div class="video-layer" id="videoLayer">
-            <video
-              class="hero-video"
-              autoplay
-              muted
-              loop
-              playsinline
-              preload="auto"
-            >
-              <!-- 네 영상 파일 경로로 바꿔 -->
-              <source src="videos/swipe.mp4" type="video/mp4" />
-            </video>
+    <div class="screen-wrapper">
 
-            <div class="video-caption">
-              <span class="caption-line">SWIPE TO UNLOCK</span>
-              <span class="caption-line caption-line--muted">A PHYSICAL INTERPRETATION OF A DAILY COMMAND</span>
-            </div>
-          </div>
+      <div class="label top-left">OVER-COMPLIANCE</div>
+      <div class="label top-right">A PROTOCOL OF EVERYDAY COMMANDS</div>
 
-          <!-- TEXT FIELD -->
-          <div class="text-layer" id="textLayer" aria-hidden="true">
-            <div class="text-track" id="textTrack">
-              <section class="text-panel">
-                <p class="cmd cmd-main">SWIPE TO UNLOCK</p>
-                <p class="cmd cmd-small">SWIPE TO UNLOCK</p>
-                <p class="cmd cmd-mid">SWIPE TO UNLOCK</p>
-                <p class="cmd cmd-small">SWIPE TO UNLOCK</p>
-                <p class="cmd cmd-tiny">SWIPE TO UNLOCK</p>
-              </section>
+      <div class="screen" id="screen">
 
-              <section class="text-panel">
-                <p class="cmd cmd-mid">SWIPE TO UNLOCK</p>
-                <p class="cmd cmd-main">SWIPE TO UNLOCK</p>
-                <p class="cmd cmd-small">SWIPE TO UNLOCK</p>
-                <p class="cmd cmd-mid cmd-faded">SWIPE TO UNLOCK</p>
-                <p class="cmd cmd-tiny">SWIPE TO UNLOCK</p>
-              </section>
-
-              <section class="text-panel">
-                <p class="cmd cmd-small">SWIPE TO UNLOCK</p>
-                <p class="cmd cmd-main cmd-shift">SWIPE TO UNLOCK</p>
-                <p class="cmd cmd-mid">SWIPE TO UNLOCK</p>
-                <p class="cmd cmd-small cmd-faded">SWIPE TO UNLOCK</p>
-                <p class="cmd cmd-tiny">SWIPE TO UNLOCK</p>
-              </section>
-
-              <section class="text-panel">
-                <p class="cmd cmd-main">SWIPE TO UNLOCK</p>
-                <p class="cmd cmd-mid">SWIPE TO UNLOCK</p>
-                <p class="cmd cmd-small">SWIPE TO UNLOCK</p>
-                <p class="cmd cmd-mid cmd-shift">SWIPE TO UNLOCK</p>
-                <p class="cmd cmd-tiny cmd-faded">SWIPE TO UNLOCK</p>
-              </section>
-
-              <section class="text-panel">
-                <p class="cmd cmd-main cmd-faded">SWIPE TO UNLOCK</p>
-                <p class="cmd cmd-small">SWIPE TO UNLOCK</p>
-                <p class="cmd cmd-mid">SWIPE TO UNLOCK</p>
-                <p class="cmd cmd-small">SWIPE TO UNLOCK</p>
-                <p class="cmd cmd-tiny">SWIPE TO UNLOCK</p>
-              </section>
-            </div>
-          </div>
-
-          <!-- subtle screen surface -->
-          <div class="screen-overlay"></div>
+        <!-- VIDEO -->
+        <div class="video-layer" id="videoLayer">
+          <video autoplay muted loop playsinline>
+            <source src="swipetounlock_1.mp4" type="video/mp4">
+          </video>
         </div>
 
-        <div class="screen-label bottom-left">SCROLL TO ENTER</div>
-        <div class="screen-label bottom-right" id="progressText">000%</div>
-      </div>
-    </section>
+        <!-- TEXT -->
+        <div class="text-layer" id="textLayer">
+          <div class="track" id="track">
 
-    <section class="statement">
-      <div class="statement-inner">
-        <p class="statement-eyebrow">Statement</p>
-        <p class="statement-title">Over-Compliance</p>
-        <p class="statement-text">
-          I collect everyday commands and translate them into overperformed actions.
-          This work reveals how we internalize systems and continuously adjust ourselves
-          to be recognized, aligned, and evaluated.
-        </p>
+            <div class="panel">
+              <p class="main">SWIPE TO UNLOCK</p>
+              <p>SWIPE TO UNLOCK</p>
+              <p class="small">SWIPE TO UNLOCK</p>
+              <p class="tiny">SWIPE TO UNLOCK</p>
+            </div>
+
+            <div class="panel">
+              <p>SWIPE TO UNLOCK</p>
+              <p class="main">SWIPE TO UNLOCK</p>
+              <p class="small">SWIPE TO UNLOCK</p>
+              <p class="tiny">SWIPE TO UNLOCK</p>
+            </div>
+
+            <div class="panel">
+              <p class="small">SWIPE TO UNLOCK</p>
+              <p class="main">SWIPE TO UNLOCK</p>
+              <p>SWIPE TO UNLOCK</p>
+              <p class="tiny">SWIPE TO UNLOCK</p>
+            </div>
+
+            <div class="panel">
+              <p class="main">SWIPE TO UNLOCK</p>
+              <p>SWIPE TO UNLOCK</p>
+              <p class="small">SWIPE TO UNLOCK</p>
+              <p class="tiny">SWIPE TO UNLOCK</p>
+            </div>
+
+          </div>
+        </div>
+
       </div>
-    </section>
-  </main>
+
+      <div class="label bottom-left">SCROLL TO ENTER</div>
+      <div class="label bottom-right" id="percent">000%</div>
+
+    </div>
+
+  </section>
 
   <script src="script.js"></script>
 </body>
