@@ -1,63 +1,95 @@
 <!DOCTYPE html>
-<html lang="ko">
+<html lang="en">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Over-Compliance</title>
+
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link
     href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@300;400;500&display=swap"
     rel="stylesheet"
   >
+
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-  <main class="page">
-    <section class="stage">
+  <div class="page-progress" id="pageProgress"></div>
+
+  <main class="site">
+    <section class="stage" id="stage">
       <div class="screen-shell">
         <div class="screen-label top-left">OVER-COMPLIANCE</div>
         <div class="screen-label top-right">A PROTOCOL OF EVERYDAY COMMANDS</div>
 
         <div class="screen" id="screen">
-          <div class="screen-inner" id="screenInner">
-            <div class="face face-front">
-              <div class="face-content face-content-front">
-                <p class="cmd cmd-main">SWIPE TO UNLOCK</p>
-                <p class="cmd cmd-sub">DO NOT MOVE</p>
-                <p class="cmd cmd-sub">TRY AGAIN</p>
-              </div>
-            </div>
+          <!-- HERO VIDEO -->
+          <div class="video-layer" id="videoLayer">
+            <video
+              class="hero-video"
+              autoplay
+              muted
+              loop
+              playsinline
+              preload="auto"
+            >
+              <!-- 네 영상 파일 경로로 바꿔 -->
+              <source src="videos/swipe.mp4" type="video/mp4" />
+            </video>
 
-            <div class="face face-right">
-              <div class="face-content">
-                <p class="cmd cmd-mid">SELECT THE CORRECT ANSWER</p>
-                <p class="cmd cmd-sub">VERIFY YOU ARE NOT A ROBOT</p>
-              </div>
-            </div>
-
-            <div class="face face-left">
-              <div class="face-content">
-                <p class="cmd cmd-mid">PLEASE STAND BEHIND THE LINE</p>
-                <p class="cmd cmd-sub">DO NOT CROSS THE LINE</p>
-              </div>
-            </div>
-
-            <div class="face face-top">
-              <div class="face-content">
-                <p class="cmd cmd-sub">POSITION YOUR FACE WITHIN THE FRAME</p>
-                <p class="cmd cmd-mid">MOVE YOUR HEAD SLOWLY TO COMPLETE THE CIRCLE</p>
-              </div>
-            </div>
-
-            <div class="face face-bottom">
-              <div class="face-content">
-                <p class="cmd cmd-sub">READ THE SMALLEST LINE YOU CAN SEE</p>
-                <p class="cmd cmd-sub">HOLD YOUR POSITION</p>
-              </div>
+            <div class="video-caption">
+              <span class="caption-line">SWIPE TO UNLOCK</span>
+              <span class="caption-line caption-line--muted">A PHYSICAL INTERPRETATION OF A DAILY COMMAND</span>
             </div>
           </div>
 
+          <!-- TEXT FIELD -->
+          <div class="text-layer" id="textLayer" aria-hidden="true">
+            <div class="text-track" id="textTrack">
+              <section class="text-panel">
+                <p class="cmd cmd-main">SWIPE TO UNLOCK</p>
+                <p class="cmd cmd-small">SWIPE TO UNLOCK</p>
+                <p class="cmd cmd-mid">SWIPE TO UNLOCK</p>
+                <p class="cmd cmd-small">SWIPE TO UNLOCK</p>
+                <p class="cmd cmd-tiny">SWIPE TO UNLOCK</p>
+              </section>
+
+              <section class="text-panel">
+                <p class="cmd cmd-mid">SWIPE TO UNLOCK</p>
+                <p class="cmd cmd-main">SWIPE TO UNLOCK</p>
+                <p class="cmd cmd-small">SWIPE TO UNLOCK</p>
+                <p class="cmd cmd-mid cmd-faded">SWIPE TO UNLOCK</p>
+                <p class="cmd cmd-tiny">SWIPE TO UNLOCK</p>
+              </section>
+
+              <section class="text-panel">
+                <p class="cmd cmd-small">SWIPE TO UNLOCK</p>
+                <p class="cmd cmd-main cmd-shift">SWIPE TO UNLOCK</p>
+                <p class="cmd cmd-mid">SWIPE TO UNLOCK</p>
+                <p class="cmd cmd-small cmd-faded">SWIPE TO UNLOCK</p>
+                <p class="cmd cmd-tiny">SWIPE TO UNLOCK</p>
+              </section>
+
+              <section class="text-panel">
+                <p class="cmd cmd-main">SWIPE TO UNLOCK</p>
+                <p class="cmd cmd-mid">SWIPE TO UNLOCK</p>
+                <p class="cmd cmd-small">SWIPE TO UNLOCK</p>
+                <p class="cmd cmd-mid cmd-shift">SWIPE TO UNLOCK</p>
+                <p class="cmd cmd-tiny cmd-faded">SWIPE TO UNLOCK</p>
+              </section>
+
+              <section class="text-panel">
+                <p class="cmd cmd-main cmd-faded">SWIPE TO UNLOCK</p>
+                <p class="cmd cmd-small">SWIPE TO UNLOCK</p>
+                <p class="cmd cmd-mid">SWIPE TO UNLOCK</p>
+                <p class="cmd cmd-small">SWIPE TO UNLOCK</p>
+                <p class="cmd cmd-tiny">SWIPE TO UNLOCK</p>
+              </section>
+            </div>
+          </div>
+
+          <!-- subtle screen surface -->
           <div class="screen-overlay"></div>
         </div>
 
@@ -66,12 +98,14 @@
       </div>
     </section>
 
-    <section class="after">
-      <div class="after-inner">
-        <p class="after-title">OVER-COMPLIANCE</p>
-        <p class="after-text">
+    <section class="statement">
+      <div class="statement-inner">
+        <p class="statement-eyebrow">Statement</p>
+        <p class="statement-title">Over-Compliance</p>
+        <p class="statement-text">
           I collect everyday commands and translate them into overperformed actions.
-          This work reveals how we continuously adjust ourselves within systems.
+          This work reveals how we internalize systems and continuously adjust ourselves
+          to be recognized, aligned, and evaluated.
         </p>
       </div>
     </section>
