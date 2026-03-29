@@ -1,20 +1,23 @@
 :root {
   --bg: #f7f7f5;
   --blue: #2047ff;
-  --blue-dark: #1736c6;
-  --white: #f8f9ff;
-  --black: #0f1115;
-  --line: rgba(255, 255, 255, 0.16);
-  --line-dark: rgba(15, 17, 21, 0.18);
-  --screen-size: min(72vw, 72vh, 760px);
-  --depth: 140px;
+  --blue-dark: #1839d8;
+  --white: #f7f8ff;
+  --black: #0d1016;
+  --line-light: rgba(255, 255, 255, 0.14);
+  --line-dark: rgba(13, 16, 22, 0.14);
+  --muted-dark: rgba(13, 16, 22, 0.62);
+
+  --screen-width: min(76vw, 1080px);
+  --screen-height: calc(var(--screen-width) * 1090 / 1080);
 }
 
 * {
   box-sizing: border-box;
 }
 
-html, body {
+html,
+body {
   margin: 0;
   padding: 0;
 }
@@ -24,181 +27,279 @@ html {
 }
 
 body {
-  font-family: "IBM Plex Mono", monospace;
   background: var(--bg);
   color: var(--black);
+  font-family: "IBM Plex Mono", monospace;
   overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: geometricPrecision;
 }
 
-.page {
+.page-progress {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 0%;
+  height: 2px;
+  background: var(--black);
+  z-index: 999;
+}
+
+.site {
   width: 100%;
 }
 
-/* 첫 화면 전체 */
 .stage {
   position: relative;
-  min-height: 260vh;
-  display: flex;
-  justify-content: center;
-  align-items: flex-start;
+  min-height: 320vh;
 }
 
-/* 스크린 전체 감싸는 박스 */
 .screen-shell {
   position: sticky;
   top: 0;
-  width: 100%;
   height: 100vh;
   display: grid;
   place-items: center;
-  padding: 40px;
   background: var(--bg);
+  padding: 28px;
+  overflow: hidden;
 }
 
-/* 라벨 */
 .screen-label {
   position: absolute;
+  z-index: 20;
   font-size: 11px;
+  line-height: 1.2;
   letter-spacing: 0.12em;
   text-transform: uppercase;
-  color: var(--black);
-  opacity: 0.78;
+  color: var(--muted-dark);
+  white-space: nowrap;
 }
 
-.top-left { top: 28px; left: 32px; }
-.top-right { top: 28px; right: 32px; text-align: right; }
-.bottom-left { bottom: 28px; left: 32px; }
-.bottom-right { bottom: 28px; right: 32px; }
+.top-left {
+  top: 24px;
+  left: 28px;
+}
 
-/* 파란 정사각형 스크린 */
+.top-right {
+  top: 24px;
+  right: 28px;
+  text-align: right;
+}
+
+.bottom-left {
+  bottom: 24px;
+  left: 28px;
+}
+
+.bottom-right {
+  bottom: 24px;
+  right: 28px;
+}
+
 .screen {
   position: relative;
-  width: var(--screen-size);
-  height: var(--screen-size);
+  width: var(--screen-width);
+  height: var(--screen-height);
   background: var(--blue);
-  border: 1px solid rgba(15, 17, 21, 0.14);
-  box-shadow:
-    0 18px 60px rgba(0, 0, 0, 0.08),
-    inset 0 0 0 1px rgba(255,255,255,0.08);
+  border: 1px solid rgba(13, 16, 22, 0.12);
   overflow: hidden;
-  perspective: 1800px;
+  box-shadow:
+    0 24px 80px rgba(0, 0, 0, 0.08),
+    inset 0 0 0 1px rgba(255,255,255,0.04);
 }
 
-/* 안쪽 공간 */
-.screen-inner {
+/* VIDEO */
+.video-layer,
+.text-layer {
   position: absolute;
   inset: 0;
-  transform-style: preserve-3d;
+}
+
+.video-layer {
+  z-index: 2;
+}
+
+.hero-video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  background: var(--blue-dark);
+  display: block;
+}
+
+.video-caption {
+  position: absolute;
+  left: 22px;
+  bottom: 22px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  z-index: 3;
+}
+
+.caption-line {
+  display: inline-block;
+  font-size: 12px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: rgba(247, 248, 255, 0.92);
+}
+
+.caption-line--muted {
+  color: rgba(247, 248, 255, 0.56);
+}
+
+/* TEXT FIELD */
+.text-layer {
+  z-index: 4;
+  overflow: hidden;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.text-track {
+  position: absolute;
+  inset: 0;
   will-change: transform;
 }
 
-/* 파란 스크린 위 레이어 */
-.screen-overlay {
-  position: absolute;
-  inset: 0;
-  pointer-events: none;
-  background:
-    linear-gradient(to bottom, rgba(255,255,255,0.03), rgba(255,255,255,0)),
-    linear-gradient(to right, rgba(255,255,255,0.02), rgba(255,255,255,0));
-  mix-blend-mode: screen;
-}
-
-/* 내부 면 */
-.face {
-  position: absolute;
-  inset: 0;
-  backface-visibility: hidden;
-  border: 1px solid var(--line);
-  background: rgba(32, 71, 255, 0.92);
-  color: var(--white);
-}
-
-.face-front  { transform: translateZ(calc(var(--depth) * -1)); }
-.face-right  { transform: rotateY(-90deg) translateZ(calc(var(--depth) * -1)); transform-origin: center; }
-.face-left   { transform: rotateY(90deg) translateZ(calc(var(--depth) * -1)); transform-origin: center; }
-.face-top    { transform: rotateX(-90deg) translateZ(calc(var(--depth) * -1)); transform-origin: center; }
-.face-bottom { transform: rotateX(90deg) translateZ(calc(var(--depth) * -1)); transform-origin: center; }
-
-.face-content {
-  position: absolute;
-  inset: 0;
-  padding: 28px;
+.text-panel {
+  width: 100%;
+  height: var(--screen-height);
+  padding: 22px;
+  border-bottom: 1px solid var(--line-light);
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  gap: 14px;
+  background:
+    linear-gradient(to bottom, rgba(255,255,255,0.025), rgba(255,255,255,0.01));
 }
 
-.face-content-front {
-  justify-content: center;
-  align-items: flex-start;
-}
-
-/* 타이포 */
 .cmd {
   margin: 0;
-  line-height: 1.05;
   text-transform: uppercase;
-  word-break: break-word;
+  line-height: 1.02;
+  color: var(--white);
   font-weight: 400;
+  word-break: break-word;
 }
 
 .cmd-main {
-  font-size: clamp(22px, 3vw, 42px);
+  font-size: clamp(20px, 2.4vw, 34px);
   letter-spacing: 0.02em;
-  max-width: 11ch;
+  max-width: 12ch;
 }
 
 .cmd-mid {
-  font-size: clamp(14px, 1.6vw, 22px);
-  line-height: 1.15;
-  color: rgba(248, 249, 255, 0.92);
+  font-size: clamp(13px, 1.2vw, 18px);
+  color: rgba(247, 248, 255, 0.9);
   max-width: 18ch;
 }
 
-.cmd-sub {
-  font-size: clamp(10px, 1vw, 13px);
-  letter-spacing: 0.1em;
-  color: rgba(248, 249, 255, 0.62);
-  max-width: 26ch;
+.cmd-small {
+  font-size: clamp(10px, 0.95vw, 13px);
+  letter-spacing: 0.12em;
+  color: rgba(247, 248, 255, 0.58);
+  max-width: 28ch;
 }
 
-/* 다음 섹션 */
-.after {
+.cmd-tiny {
+  font-size: 10px;
+  letter-spacing: 0.16em;
+  color: rgba(247, 248, 255, 0.36);
+  max-width: 30ch;
+}
+
+.cmd-faded {
+  opacity: 0.42;
+}
+
+.cmd-shift {
+  margin-left: 16%;
+}
+
+/* screen surface */
+.screen-overlay {
+  position: absolute;
+  inset: 0;
+  z-index: 8;
+  pointer-events: none;
+  border: 1px solid rgba(255,255,255,0.1);
+  box-shadow:
+    inset 0 0 0 1px rgba(255,255,255,0.03),
+    inset 0 -80px 120px rgba(0,0,0,0.06);
+}
+
+/* Statement */
+.statement {
   min-height: 100vh;
   padding: 120px 32px;
-  display: flex;
-  align-items: flex-start;
-  justify-content: center;
   background: var(--bg);
 }
 
-.after-inner {
+.statement-inner {
   width: min(100%, 900px);
+  margin: 0 auto;
   border-top: 1px solid var(--line-dark);
   padding-top: 22px;
 }
 
-.after-title {
+.statement-eyebrow {
   margin: 0 0 18px;
-  font-size: 12px;
+  font-size: 11px;
   letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--muted-dark);
+}
+
+.statement-title {
+  margin: 0 0 20px;
+  font-size: clamp(16px, 1.4vw, 22px);
+  letter-spacing: 0.08em;
   text-transform: uppercase;
 }
 
-.after-text {
+.statement-text {
   margin: 0;
   max-width: 560px;
   font-size: 15px;
   line-height: 1.9;
-  color: rgba(15, 17, 21, 0.72);
+  color: rgba(13, 16, 22, 0.72);
 }
 
-/* 모바일 */
+/* trace words */
+.trace-word {
+  position: fixed;
+  left: 0;
+  top: 0;
+  z-index: 50;
+  pointer-events: none;
+  font-size: 10px;
+  line-height: 1;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: rgba(32, 71, 255, 0.8);
+  transform: translate(-50%, -50%);
+  white-space: nowrap;
+  animation: traceFade 0.9s linear forwards;
+}
+
+@keyframes traceFade {
+  0% {
+    opacity: 0.8;
+    transform: translate(-50%, -50%);
+  }
+  100% {
+    opacity: 0;
+    transform: translate(-50%, -50%) translateY(-8px);
+  }
+}
+
 @media (max-width: 900px) {
   :root {
-    --screen-size: min(84vw, 62vh, 600px);
-    --depth: 110px;
+    --screen-width: min(88vw, 900px);
+    --screen-height: calc(var(--screen-width) * 1090 / 1080);
   }
 
   .screen-shell {
@@ -214,7 +315,12 @@ body {
   .bottom-left { bottom: 18px; left: 20px; }
   .bottom-right { bottom: 18px; right: 20px; }
 
-  .face-content {
+  .text-panel {
     padding: 18px;
+  }
+
+  .video-caption {
+    left: 18px;
+    bottom: 18px;
   }
 }
