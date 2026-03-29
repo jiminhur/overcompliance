@@ -1,80 +1,64 @@
-=<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Over-Compliance</title>
+  <title>OVER COMPLIANCE</title>
 
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@300;400;500&display=swap" rel="stylesheet">
-
-  <link rel="stylesheet" href="style.css" />
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@300;400&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
-  <div class="progress" id="progress"></div>
 
-  <section class="stage" id="stage">
+<div class="logo">
+  <div class="title">( OVER COMPLIANCE )</div>
+  <div class="sub">A PROTOCOL OF EVERYDAY COMMANDS</div>
+</div>
 
-    <div class="screen-wrapper">
+<div class="counter-wrap">
+  <div class="progress-side progress-left">
+    <div class="progress-fill" id="progressLeft"></div>
+  </div>
 
-      <div class="label top-left">OVER-COMPLIANCE</div>
-      <div class="label top-right">A PROTOCOL OF EVERYDAY COMMANDS</div>
+  <div class="counter-box" id="counterBox">00</div>
 
-      <div class="screen" id="screen">
+  <div class="progress-side progress-right">
+    <div class="progress-fill" id="progressRight"></div>
+  </div>
+</div>
 
-        <!-- VIDEO -->
-        <div class="video-layer" id="videoLayer">
-          <video autoplay muted loop playsinline>
-            <source src="swipetounlock_1.mp4" type="video/mp4">
-          </video>
-        </div>
+<button id="soundBtn">SOUND OFF</button>
 
-        <!-- TEXT -->
-        <div class="text-layer" id="textLayer">
-          <div class="track" id="track">
+<div class="container">
+  <div class="frame">
+    <div class="inner">
 
-            <div class="panel">
-              <p class="main">SWIPE TO UNLOCK</p>
-              <p>SWIPE TO UNLOCK</p>
-              <p class="small">SWIPE TO UNLOCK</p>
-              <p class="tiny">SWIPE TO UNLOCK</p>
-            </div>
+      <div class="scene">
+        <div class="cube" id="cube">
 
-            <div class="panel">
-              <p>SWIPE TO UNLOCK</p>
-              <p class="main">SWIPE TO UNLOCK</p>
-              <p class="small">SWIPE TO UNLOCK</p>
-              <p class="tiny">SWIPE TO UNLOCK</p>
-            </div>
-
-            <div class="panel">
-              <p class="small">SWIPE TO UNLOCK</p>
-              <p class="main">SWIPE TO UNLOCK</p>
-              <p>SWIPE TO UNLOCK</p>
-              <p class="tiny">SWIPE TO UNLOCK</p>
-            </div>
-
-            <div class="panel">
-              <p class="main">SWIPE TO UNLOCK</p>
-              <p>SWIPE TO UNLOCK</p>
-              <p class="small">SWIPE TO UNLOCK</p>
-              <p class="tiny">SWIPE TO UNLOCK</p>
-            </div>
-
+          <div class="face front">
+            <video id="video" autoplay muted loop playsinline>
+              <source src="./videos/swipetounlock_1.mp4" type="video/mp4">
+            </video>
           </div>
-        </div>
 
+          <div class="face back">
+            <video autoplay muted loop playsinline>
+              <source src="./videos/swipetounlock_1.mp4" type="video/mp4">
+            </video>
+          </div>
+
+          <div class="face top"><div class="text-block"></div></div>
+          <div class="face bottom"><div class="text-block"></div></div>
+
+        </div>
       </div>
 
-      <div class="label bottom-left">SCROLL TO ENTER</div>
-      <div class="label bottom-right" id="percent">000%</div>
-
     </div>
+  </div>
+</div>
 
-  </section>
-
-  <script src="script.js"></script>
+<script src="script.js"></script>
 </body>
 </html>
