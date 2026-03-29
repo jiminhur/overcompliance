@@ -4,147 +4,75 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Over-Compliance</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link
-    href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap"
+    href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@300;400;500&display=swap"
     rel="stylesheet"
-  />
+  >
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-  <div class="page-progress" aria-hidden="true"></div>
+  <main class="page">
+    <section class="stage">
+      <div class="screen-shell">
+        <div class="screen-label top-left">OVER-COMPLIANCE</div>
+        <div class="screen-label top-right">A PROTOCOL OF EVERYDAY COMMANDS</div>
 
-  <main class="site-shell">
-    <!-- HERO / 3D ROOM -->
-    <section class="hero" id="hero">
-      <div class="hero__topline">
-        <span class="hero__index">001</span>
-        <span class="hero__label">OVER-COMPLIANCE</span>
-      </div>
-
-      <div class="hero__title-wrap">
-        <h1 class="hero__title">A Protocol of Everyday Commands</h1>
-        <p class="hero__subtitle">
-          Instructions do not simply guide behavior. They slowly become the way behavior is formed.
-        </p>
-      </div>
-
-      <div class="scene-wrap">
-        <div class="scene">
-          <div class="room" id="room">
-            <div class="wall wall--front">
-              <div class="wall__content wall__content--front">
-                <p class="command command--xl">SWIPE TO UNLOCK</p>
-                <p class="command command--sm">DO NOT MOVE</p>
-                <p class="command command--md">TRY AGAIN</p>
+        <div class="screen" id="screen">
+          <div class="screen-inner" id="screenInner">
+            <div class="face face-front">
+              <div class="face-content face-content-front">
+                <p class="cmd cmd-main">SWIPE TO UNLOCK</p>
+                <p class="cmd cmd-sub">DO NOT MOVE</p>
+                <p class="cmd cmd-sub">TRY AGAIN</p>
               </div>
             </div>
 
-            <div class="wall wall--right">
-              <div class="wall__content wall__content--right">
-                <p class="command command--md">SELECT THE CORRECT ANSWER</p>
-                <p class="command command--sm">AUTHENTICATION REQUIRED</p>
-                <p class="command command--lg">VERIFY YOU ARE NOT A ROBOT</p>
+            <div class="face face-right">
+              <div class="face-content">
+                <p class="cmd cmd-mid">SELECT THE CORRECT ANSWER</p>
+                <p class="cmd cmd-sub">VERIFY YOU ARE NOT A ROBOT</p>
               </div>
             </div>
 
-            <div class="wall wall--left">
-              <div class="wall__content wall__content--left">
-                <p class="command command--lg">PLEASE STAND BEHIND THE LINE</p>
-                <p class="command command--sm">PLEASE WAIT HERE</p>
-                <p class="command command--md">DO NOT CROSS THE LINE</p>
+            <div class="face face-left">
+              <div class="face-content">
+                <p class="cmd cmd-mid">PLEASE STAND BEHIND THE LINE</p>
+                <p class="cmd cmd-sub">DO NOT CROSS THE LINE</p>
               </div>
             </div>
 
-            <div class="wall wall--ceiling">
-              <div class="wall__content wall__content--ceiling">
-                <p class="command command--sm">POSITION YOUR FACE WITHIN THE FRAME</p>
-                <p class="command command--lg">MOVE YOUR HEAD SLOWLY TO COMPLETE THE CIRCLE</p>
+            <div class="face face-top">
+              <div class="face-content">
+                <p class="cmd cmd-sub">POSITION YOUR FACE WITHIN THE FRAME</p>
+                <p class="cmd cmd-mid">MOVE YOUR HEAD SLOWLY TO COMPLETE THE CIRCLE</p>
               </div>
             </div>
 
-            <div class="wall wall--floor">
-              <div class="wall__content wall__content--floor">
-                <p class="command command--md">READ THE SMALLEST LINE YOU CAN SEE</p>
-                <p class="command command--sm">HOLD YOUR POSITION</p>
-                <p class="command command--lg">KEEP YOUR CORE TIGHT</p>
-              </div>
-            </div>
-
-            <div class="wall wall--back">
-              <div class="wall__content wall__content--back">
-                <p class="command command--xl">FOLLOW THE INSTRUCTIONS</p>
+            <div class="face face-bottom">
+              <div class="face-content">
+                <p class="cmd cmd-sub">READ THE SMALLEST LINE YOU CAN SEE</p>
+                <p class="cmd cmd-sub">HOLD YOUR POSITION</p>
               </div>
             </div>
           </div>
 
-          <div class="frame frame--outer"></div>
-          <div class="frame frame--inner"></div>
+          <div class="screen-overlay"></div>
         </div>
-      </div>
 
-      <div class="hero__bottomline">
-        <p class="hero__instruction">Scroll to enter the system</p>
+        <div class="screen-label bottom-left">SCROLL TO ENTER</div>
+        <div class="screen-label bottom-right" id="progressText">000%</div>
       </div>
     </section>
 
-    <!-- STATEMENT -->
-    <section class="statement section">
-      <div class="section__inner">
-        <p class="section__eyebrow">Statement</p>
-        <div class="statement__grid">
-          <p class="statement__lead">
-            〈Over-Compliance 과잉 순응〉은 우리가 무심코 마주하는 일상의 명령들을 수집하고,
-            그것을 과도하고 미묘하게 어긋난 행동으로 번역하는 작업이다.
-          </p>
-          <p class="statement__text">
-            단순하고 익숙한 지시들은 반복되는 과정 속에서 점점 더 정교해지고,
-            몸의 움직임을 넘어 우리의 태도와 인식까지 조정한다.
-            이 작업은 이러한 순응을 설명하거나 판단하지 않는다.
-            다만 우리가 인식되고 맞춰지고 평가되기 위해,
-            보이지 않는 기준을 내면화하며 스스로를 조정해 나가는 상태를 드러낸다.
-          </p>
-        </div>
-      </div>
-    </section>
-
-    <!-- ARCHIVE PREVIEW -->
-    <section class="archive section">
-      <div class="section__inner">
-        <p class="section__eyebrow">Collected Commands</p>
-
-        <div class="archive__grid">
-          <article class="archive-card">
-            <h3 class="archive-card__title">Swipe to unlock</h3>
-            <p class="archive-card__meta">Source / mobile interface</p>
-          </article>
-
-          <article class="archive-card">
-            <h3 class="archive-card__title">Position your face within the frame</h3>
-            <p class="archive-card__meta">Source / facial recognition system</p>
-          </article>
-
-          <article class="archive-card">
-            <h3 class="archive-card__title">Select the correct answer</h3>
-            <p class="archive-card__meta">Source / exam and evaluation system</p>
-          </article>
-
-          <article class="archive-card">
-            <h3 class="archive-card__title">Do not cross the line</h3>
-            <p class="archive-card__meta">Source / public control system</p>
-          </article>
-
-          <article class="archive-card">
-            <h3 class="archive-card__title">Verify you are not a robot</h3>
-            <p class="archive-card__meta">Source / automated verification</p>
-          </article>
-
-          <article class="archive-card">
-            <h3 class="archive-card__title">Hold your position</h3>
-            <p class="archive-card__meta">Source / scanning and training systems</p>
-          </article>
-        </div>
+    <section class="after">
+      <div class="after-inner">
+        <p class="after-title">OVER-COMPLIANCE</p>
+        <p class="after-text">
+          I collect everyday commands and translate them into overperformed actions.
+          This work reveals how we continuously adjust ourselves within systems.
+        </p>
       </div>
     </section>
   </main>
