@@ -44,7 +44,7 @@ body {
   justify-content: center;
   font-size: 28px;
   letter-spacing: 0.08em;
-  background: rgba(255,255,255,0.96);
+  background: rgba(227, 227, 227, 0.96);
   backface-visibility: hidden;
 }
 
