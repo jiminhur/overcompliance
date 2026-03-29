@@ -1,26 +1,30 @@
-const room = document.getElementById("room");
-const progressBar = document.querySelector(".page-progress");
+const screenInner = document.getElementById("screenInner");
+const progressText = document.getElementById("progressText");
+const stage = document.querySelector(".stage");
 
-const clamp = (value, min, max) => Math.min(Math.max(value, min), max);
+function clamp(value, min, max) {
+  return Math.min(Math.max(value, min), max);
+}
 
 function updateScene() {
+  const stageTop = stage.offsetTop;
+  const stageHeight = stage.offsetHeight - window.innerHeight;
   const scrollY = window.scrollY;
-  const hero = document.getElementById("hero");
-  const heroHeight = hero.offsetHeight - window.innerHeight;
 
-  const progress = clamp(scrollY / heroHeight, 0, 1);
+  const progress = clamp((scrollY - stageTop) / stageHeight, 0, 1);
 
-  // progress bar
-  progressBar.style.width = `${(scrollY / (document.body.scrollHeight - window.innerHeight)) * 100}%`;
+  // 진행률 텍스트
+  const percent = String(Math.round(progress * 100)).padStart(3, "0");
+  progressText.textContent = `${percent}%`;
 
-  // 3D room movement
-  // 처음에는 정면, 스크롤할수록 안쪽을 들여다보는 느낌
-  const rotateX = -8 - progress * 18;   // 위아래 회전
-  const rotateY = progress * 28 - 14;   // 좌우 회전
-  const translateZ = -progress * 140;   // 안으로 들어가는 느낌
-  const scale = 1 + progress * 0.06;    // 약간 확대
+  // 처음에는 거의 평면처럼 보이게
+  // 스크롤하면 안쪽 공간이 점점 드러남
+  const rotateX = -2 - progress * 18;
+  const rotateY = progress * 24 - 12;
+  const translateZ = -progress * 120;
+  const scale = 1 + progress * 0.02;
 
-  room.style.transform = `
+  screenInner.style.transform = `
     rotateX(${rotateX}deg)
     rotateY(${rotateY}deg)
     translateZ(${translateZ}px)
