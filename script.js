@@ -1,41 +1,51 @@
 const cube = document.getElementById("cube");
-const video = document.getElementById("video");
-const inner = document.getElementById("inner");
+const videoFront = document.getElementById("videoFront");
+const videoBack = document.getElementById("videoBack");
 
 const counterBox = document.getElementById("counterBox");
 const progressLeft = document.getElementById("progressLeft");
 const progressRight = document.getElementById("progressRight");
+const soundBtn = document.getElementById("soundBtn");
 
-/* TEXT */
+/* text restored */
 const blocks = document.querySelectorAll(".text-block");
-
 let text = "";
 for(let i=0;i<2000;i++){
   text += "SWIPE TO UNLOCK ";
 }
-blocks.forEach(b=>b.textContent=text);
+blocks.forEach(b => b.textContent = text);
 
-/* 3D */
+/* geometry */
 const d = 400;
-const h = d/2;
+const h = d / 2;
 
 document.querySelector(".front").style.transform = `translateZ(${h}px)`;
 document.querySelector(".back").style.transform = `rotateX(180deg) translateZ(${h}px)`;
 document.querySelector(".top").style.transform = `rotateX(90deg) translateZ(${h}px)`;
 document.querySelector(".bottom").style.transform = `rotateX(-90deg) translateZ(${h}px)`;
 
-/* ROTATION */
+/* ensure both videos play */
+function safePlay(v){
+  const p = v.play();
+  if (p !== undefined) p.catch(() => {});
+}
+
+window.addEventListener("load", () => {
+  safePlay(videoFront);
+  safePlay(videoBack);
+});
+
+/* rotation + counter */
 let rotateX = 0;
 let count = 0;
 
 function updateCounter(){
-  const turns = Math.floor(Math.abs(rotateX)/360);
+  const turns = Math.floor(Math.abs(rotateX) / 360);
 
   if(turns !== count){
     count = turns;
     counterBox.innerText = String(count).padStart(2,"0");
 
-    /* 더 빨리 차는 바 */
     const maxWidth = 160;
     const width = Math.min(count * 35, maxWidth);
 
@@ -44,24 +54,23 @@ function updateCounter(){
   }
 }
 
-window.addEventListener("wheel", e=>{
+window.addEventListener("wheel", e => {
   rotateX += e.deltaY * 0.08;
   cube.style.transform = `rotateX(${rotateX}deg)`;
   updateCounter();
 });
 
-/* SOUND */
+/* sound */
 let muted = true;
-document.getElementById("soundBtn").onclick = ()=>{
+soundBtn.onclick = () => {
   muted = !muted;
-  video.muted = muted;
-  document.getElementById("soundBtn").innerText =
-    muted ? "SOUND OFF" : "SOUND ON";
+  videoFront.muted = muted;
+  videoBack.muted = true; /* visible front carries sound */
+  soundBtn.innerText = muted ? "SOUND OFF" : "SOUND ON";
 };
 
-/* TRACE */
+/* trace */
 const words = ["SWIPE","UNLOCK","VERIFY","ACCESS","HOLD","WAIT"];
-
 let lastX = window.innerWidth / 2;
 let lastY = window.innerHeight / 2;
 let lastT = performance.now();
@@ -86,7 +95,7 @@ function addTrace(x, y, text) {
   }, 1900);
 }
 
-document.addEventListener("mousemove", e=>{
+document.addEventListener("mousemove", e => {
   const now = performance.now();
   const dt = Math.max(now - lastT, 16);
 
@@ -94,13 +103,11 @@ document.addEventListener("mousemove", e=>{
   const dy = e.clientY - lastY;
   const speed = Math.hypot(dx, dy) / dt;
 
-  /* 이동 속도 따라 밀도 증가 */
   carry += Math.min(2.8, 0.6 + speed * 4.2);
 
   let burst = Math.floor(carry);
   carry -= burst;
 
-  /* 너무 일정하지 않게 */
   if (Math.random() < 0.2) burst = Math.max(0, burst - 1);
   if (Math.random() < 0.12) burst += 2;
 
@@ -111,7 +118,6 @@ document.addEventListener("mousemove", e=>{
   const dirY = dy / denom;
 
   for(let i=0;i<burst;i++){
-    /* 진행 방향을 따라 길게 남기기 */
     const along = Math.random() * 140;
     const side = (Math.random() - 0.5) * 46;
 
