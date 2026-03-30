@@ -10,55 +10,65 @@
 </head>
 
 <body>
-
-<div class="logo">
-  <div class="title">( OVER COMPLIANCE )</div>
-  <div class="sub">A PROTOCOL OF EVERYDAY COMMANDS</div>
-</div>
-
-<div class="counter-wrap">
-  <div class="progress-side progress-left">
-    <div class="progress-fill" id="progressLeft"></div>
+  <div class="logo">
+    <div class="title">( OVER COMPLIANCE )</div>
+    <div class="sub">A PROTOCOL OF EVERYDAY COMMANDS</div>
   </div>
 
-  <div class="counter-box" id="counterBox">00</div>
+  <div class="status-text">YOU HAVE BEEN TRAPPED FOR</div>
 
-  <div class="progress-side progress-right">
-    <div class="progress-fill" id="progressRight"></div>
-  </div>
-</div>
+  <div class="counter-wrap">
+    <div class="progress-side progress-left">
+      <div class="progress-fill" id="progressLeft"></div>
+    </div>
 
-<button id="soundBtn">SOUND OFF</button>
+    <div class="counter-box" id="counterBox">00</div>
 
-<div class="container">
-  <div class="frame">
-    <div class="inner" id="inner">
-
-      <div class="scene">
-        <div class="cube" id="cube">
-
-          <div class="face front">
-            <video id="video" autoplay muted loop playsinline>
-              <source src="./videos/swipetounlock_1.mp4" type="video/mp4">
-            </video>
-          </div>
-
-          <div class="face back">
-            <video autoplay muted loop playsinline>
-              <source src="./videos/swipetounlock_1.mp4" type="video/mp4">
-            </video>
-          </div>
-
-          <div class="face top"><div class="text-block"></div></div>
-          <div class="face bottom"><div class="text-block"></div></div>
-
-        </div>
-      </div>
-
+    <div class="progress-side progress-right">
+      <div class="progress-fill" id="progressRight"></div>
     </div>
   </div>
-</div>
 
-<script src="script.js"></script>
+  <button id="soundBtn">SOUND OFF</button>
+
+  <div class="container">
+    <div class="frame">
+      <div class="inner">
+
+        <div class="scene">
+          <div class="cube" id="cube">
+
+            <div class="face front">
+              <div class="video-wrap">
+                <video id="videoFront" autoplay muted loop playsinline>
+                  <source src="./videos/swipetounlock_1.mp4" type="video/mp4">
+                </video>
+              </div>
+            </div>
+
+            <div class="face back">
+              <div class="video-wrap">
+                <video id="videoBack" autoplay muted loop playsinline>
+                  <source src="./videos/swipetounlock_1.mp4" type="video/mp4">
+                </video>
+              </div>
+            </div>
+
+            <div class="face top">
+              <div class="text-block"></div>
+            </div>
+
+            <div class="face bottom">
+              <div class="text-block"></div>
+            </div>
+
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
 </body>
 </html>
