@@ -1,280 +1,223 @@
-(function () {
-  const isIndex = document.getElementById("commands");
-  const isDetail = document.getElementById("cube") && document.getElementById("counterBox");
+const introTitle = document.getElementById("introTitle");
+const leftSide = document.getElementById("leftSide");
+const rightSide = document.getElementById("rightSide");
+const grid = document.getElementById("grid");
+const commandsEl = document.getElementById("commands");
+const preview = document.getElementById("preview");
+const hand = document.getElementById("hand");
+const hand2 = document.getElementById("hand2");
+const cube = document.getElementById("cube");
+const cubeScene = document.querySelector(".cube-scene");
+const countEl = document.getElementById("count");
+const progressLeft = document.getElementById("progressLeft");
+const progressRight = document.getElementById("progressRight");
 
-  function placeClockLabels() {
-    const labels = document.querySelectorAll(".clock-label");
-    if (!labels.length) return;
+const typeAngles = {
+  all: 180,
+  aligning: 30,
+  waiting: 60,
+  executing: 90,
+  suppressing: 120,
+  drifting: 150
+};
 
-    const cx = 240;
-    const cy = 240;
-    const r = 165;
+let currentFilter = "all";
+let redAngle = 0;
+let bottomCount = 0;
+let cubeRotation = 0;
 
-    // ALL + 5 metadata = 6축, 180도 / 6 = 30도
-    const angles = [0, 30, 60, 90, 120, 150];
+/* intro */
+setTimeout(() => {
+  introTitle.classList.add("shrink");
+}, 1000);
 
-    labels.forEach((label, i) => {
-      const rad = angles[i] * Math.PI / 180;
-      const x = cx + Math.cos(rad) * r;
-      const y = cy - Math.sin(rad) * r;
-      label.style.left = `${x}px`;
-      label.style.top = `${y}px`;
-    });
+/* sides */
+function buildSideColumn(target){
+  target.innerHTML = "";
+  for(let i=0;i<8;i++){
+    const v = document.createElement("video");
+    v.src = "./videos/swipetounlock_1.mp4";
+    v.autoplay = true;
+    v.muted = true;
+    v.loop = true;
+    v.playsInline = true;
+    target.appendChild(v);
+  }
+}
+buildSideColumn(leftSide);
+buildSideColumn(rightSide);
+
+/* grid */
+function drawGrid(){
+  grid.innerHTML = "";
+  for(let i=0;i<6;i++){
+    const line = document.createElement("div");
+    line.className = "grid-line";
+    line.style.left = `${(window.innerWidth / 6) * i}px`;
+    grid.appendChild(line);
+  }
+}
+drawGrid();
+
+/* hands */
+function moveBlueHand(type){
+  const angle = typeAngles[type] ?? 180;
+  hand.style.transition = "transform 0.6s ease";
+  hand.style.transform = `translate(-50%, -100%) rotate(${angle}deg)`;
+}
+
+function animateRedHand(){
+  redAngle += 0.1;
+  hand2.style.transform = `translate(-50%, -100%) rotate(${redAngle}deg)`;
+  requestAnimationFrame(animateRedHand);
+}
+animateRedHand();
+
+/* filters */
+const filterButtons = Array.from(document.querySelectorAll(".filter-chip"));
+
+function updateFilterButtons(){
+  filterButtons.forEach(btn => {
+    if(btn.dataset.type === currentFilter){
+      btn.classList.add("active");
+    }else{
+      btn.classList.remove("active");
+    }
+  });
+}
+
+filterButtons.forEach(btn => {
+  btn.addEventListener("click", () => {
+    currentFilter = btn.dataset.type;
+    updateFilterButtons();
+    moveBlueHand(currentFilter);
+    renderCommands();
+  });
+});
+
+/* commands */
+function renderCommands(){
+  commandsEl.innerHTML = "";
+  const placed = [];
+
+  const centerStart = window.innerWidth * 0.2;
+  const centerWidth = window.innerWidth * 0.6;
+  const safeTop = window.innerHeight * 0.68;
+  const safeBottom = document.body.scrollHeight - 2100;
+
+  function overlaps(x, y){
+    return placed.some(p => Math.abs(p.x - x) < 300 && Math.abs(p.y - y) < 430);
   }
 
-  function drawGridLines() {
-    const existing = document.querySelectorAll(".grid-line");
-    existing.forEach(el => el.remove());
+  COMMANDS.forEach(cmd => {
+    let x, y, tries = 0;
 
-    const sideWidth = window.innerWidth * 0.125;
-    const usableWidth = window.innerWidth - sideWidth * 2;
-    const colWidth = usableWidth / 5;
+    do{
+      x = centerStart + Math.random() * centerWidth;
+      y = safeTop + Math.random() * (safeBottom - safeTop);
+      tries++;
+    } while (overlaps(x, y) && tries < 60);
 
-    for (let i = 0; i < 6; i++) {
-      const line = document.createElement("div");
-      line.className = "grid-line";
-      line.style.left = `${sideWidth + i * colWidth}px`;
-      document.body.appendChild(line);
-    }
-  }
+    placed.push({x, y});
 
-  function buildSideColumns() {
-    const left = document.getElementById("leftSide");
-    const right = document.getElementById("rightSide");
-    if (!left || !right) return;
+    const el = document.createElement("div");
+    el.className = "command";
 
-    function fill(container) {
-      container.innerHTML = "";
-      for (let i = 0; i < 8; i++) {
-        const v = document.createElement("video");
-        v.src = "./videos/swipetounlock_1.mp4";
-        v.autoplay = true;
-        v.muted = true;
-        v.loop = true;
-        v.playsInline = true;
-        container.appendChild(v);
-      }
+    if(currentFilter !== "all" && cmd.time !== currentFilter){
+      el.classList.add("dim");
     }
 
-    fill(left);
-    fill(right);
-  }
+    el.style.left = `${x}px`;
+    el.style.top = `${y}px`;
 
-  function initIndex() {
-    const introTitle = document.getElementById("introTitle");
-    const hand = document.getElementById("hand");
-    const hand2 = document.getElementById("hand2");
-    const labels = Array.from(document.querySelectorAll(".clock-label"));
-    const commandsEl = document.getElementById("commands");
-    const thumbPreview = document.getElementById("thumbPreview");
+    el.innerHTML = `
+      <div>${cmd.text}</div>
+      <div class="meta">${cmd.time} · ${cmd.context} · ${cmd.action}</div>
+    `;
 
-    placeClockLabels();
-    drawGridLines();
-    buildSideColumns();
-
-    window.addEventListener("resize", () => {
-      placeClockLabels();
-      drawGridLines();
-      render(activeFilter);
+    el.addEventListener("mouseenter", (e) => {
+      preview.style.display = "block";
+      preview.style.left = `${Math.min(window.innerWidth - 230, e.clientX + 10)}px`;
+      preview.style.top = `${Math.max(20, e.clientY - 80)}px`;
+      preview.querySelector("video").src = `./videos/${cmd.video}`;
     });
 
-    setTimeout(() => {
-      introTitle.classList.add("shrink");
-    }, 1000);
-
-    const typeAngles = {
-      all: 0,
-      waiting: 30,
-      aligning: 60,
-      executing: 90,
-      suppressing: 120,
-      drifting: 150
-    };
-
-    let activeFilter = "all";
-
-    function setActiveFilter(type) {
-      activeFilter = type;
-
-      labels.forEach(label => {
-        const same = label.dataset.type === type;
-        if (same) {
-          label.classList.add("active");
-          label.classList.remove("dim");
-        } else if (type === "all") {
-          label.classList.remove("active");
-          label.classList.remove("dim");
-        } else {
-          label.classList.remove("active");
-          label.classList.add("dim");
-        }
-      });
-
-      document.body.className = type === "all" ? "" : type;
-      render(type);
-      updateHands(typeAngles[type] ?? 0);
-    }
-
-    function updateHands(angle) {
-      hand.style.transform = `translate(-50%, -100%) rotate(${angle}deg)`;
-      hand2.style.transform = `translate(-50%, -100%) rotate(${angle * 2}deg)`;
-    }
-
-    labels.forEach(label => {
-      label.addEventListener("click", () => {
-        const type = label.dataset.type;
-        setActiveFilter(type);
-      });
+    el.addEventListener("mousemove", (e) => {
+      preview.style.left = `${Math.min(window.innerWidth - 230, e.clientX + 10)}px`;
+      preview.style.top = `${Math.max(20, e.clientY - 80)}px`;
     });
 
-    function render(filter = "all") {
-      commandsEl.innerHTML = "";
+    el.addEventListener("mouseleave", () => {
+      preview.style.display = "none";
+    });
 
-      const groups = {
-        waiting: [],
-        aligning: [],
-        executing: [],
-        suppressing: [],
-        drifting: []
-      };
+    el.addEventListener("click", () => {
+      currentFilter = cmd.time;
+      updateFilterButtons();
+      moveBlueHand(cmd.time);
+      renderCommands();
+    });
 
-      COMMANDS.forEach(cmd => {
-        groups[cmd.time].push(cmd);
-      });
+    commandsEl.appendChild(el);
+  });
+}
 
-      const keys = ["waiting", "aligning", "executing", "suppressing", "drifting"];
-      const sideWidth = window.innerWidth * 0.125;
-      const usableWidth = window.innerWidth - sideWidth * 2;
-      const colWidth = usableWidth / 5;
+updateFilterButtons();
+moveBlueHand("all");
+renderCommands();
 
-      keys.forEach((key, colIndex) => {
-        const list = groups[key];
+/* cube text */
+/* 🔥 큐브 핵심 (진짜 완성본) */
 
-        list.forEach((cmd, i) => {
-          const el = document.createElement("div");
-          el.className = "command";
+/* 요소 */
+const frontVideo = document.querySelector(".front video");
+const backVideo = document.querySelector(".back video");
 
-          const isTarget = filter === "all" || cmd.time === filter;
-          if (!isTarget) el.classList.add("dim");
-          if (filter !== "all" && cmd.time === filter) el.classList.add("active-col");
+/* 1️⃣ 시작 위치 다르게 (이거 없으면 무조건 깨짐) */
+frontVideo.style.top = "0%";
+backVideo.style.top = "-50%";
 
-          el.innerHTML = `
-            <div class="command-text">${cmd.text}</div>
-            <div class="meta">
-              <span>${cmd.time}</span>
-              <span>${cmd.context}</span>
-              <span>${cmd.bodyEngagement}</span>
-              <span>${cmd.action}</span>
-              <span>${cmd.awareness}</span>
-            </div>
-          `;
+/* 2️⃣ 시간차 (회전 착시 핵심) */
+backVideo.addEventListener("loadedmetadata", () => {
+  backVideo.currentTime = 0.4;
+});
 
-          const x = sideWidth + colIndex * colWidth + colWidth / 2;
-          const y = 220 + i * 130;
+/* 3️⃣ 스크롤 위치 → 큐브 등장 */
+window.addEventListener("scroll", () => {
+  const triggerPoint = document.body.scrollHeight - window.innerHeight - 500;
 
-          el.style.left = `${x}px`;
-          el.style.top = `${y}px`;
-          el.style.transform = `translateX(-50%)`;
+  if(window.scrollY > triggerPoint){
+    cubeScene.classList.add("active");
+  } else {
+    cubeScene.classList.remove("active");
+  }
+});
 
-          el.onmouseenter = (e) => {
-            thumbPreview.style.display = "block";
-            thumbPreview.querySelector("video").src = `./videos/${cmd.video}`;
-            thumbPreview.style.left = `${Math.min(window.innerWidth - 240, e.clientX + 18)}px`;
-            thumbPreview.style.top = `${Math.max(24, e.clientY - 110)}px`;
-            document.body.className = cmd.time;
-          };
+/* 4️⃣ 흐름 애니메이션 (진짜 핵심) */
+let flow = 0;
 
-          el.onmousemove = (e) => {
-            thumbPreview.style.left = `${Math.min(window.innerWidth - 240, e.clientX + 18)}px`;
-            thumbPreview.style.top = `${Math.max(24, e.clientY - 110)}px`;
-          };
+function animateCubeFlow(){
+  flow += 0.35;  // 👉 속도 (0.25~0.5 사이 추천)
 
-          el.onmouseleave = () => {
-            thumbPreview.style.display = "none";
-            document.body.className = filter === "all" ? "" : filter;
-          };
+  frontVideo.style.transform = `translateY(${flow}px)`;
+  backVideo.style.transform = `translateY(${-flow}px)`;
 
-          el.onclick = () => {
-            location.href = `detail.html?id=${cmd.id}`;
-          };
-
-          commandsEl.appendChild(el);
-        });
-      });
-    }
-
-    setActiveFilter("all");
+  /* 무한 루프 */
+  if(flow > 300){
+    flow = 0;
   }
 
-  function initDetail() {
-    const params = new URLSearchParams(location.search);
-    const id = Number(params.get("id") || 1);
-    const cmd = COMMANDS.find(c => c.id === id) || COMMANDS[0];
+  requestAnimationFrame(animateCubeFlow);
+}
 
-    const cube = document.getElementById("cube");
-    const frontVideo = document.getElementById("videoFront");
-    const backVideo = document.getElementById("videoBack");
-    const counterBox = document.getElementById("counterBox");
-    const progressLeft = document.getElementById("progressLeft");
-    const progressRight = document.getElementById("progressRight");
-    const soundBtn = document.getElementById("soundBtn");
-    const textBlocks = document.querySelectorAll(".text-block");
+animateCubeFlow();
 
-    let dense = "";
-    for (let i = 0; i < 2000; i++) dense += `${cmd.text.toUpperCase()} `;
-    textBlocks.forEach(b => b.textContent = dense);
+/* 5️⃣ 스크롤 추가 반응 (살짝 더 입체감) */
+window.addEventListener("wheel", (e) => {
+  const triggerPoint = document.body.scrollHeight - window.innerHeight - 500;
 
-    frontVideo.src = `./videos/${cmd.video}`;
-    backVideo.src = `./videos/${cmd.video}`;
-
-    function safePlay(v) {
-      const p = v.play();
-      if (p !== undefined) p.catch(() => {});
-    }
-
-    window.addEventListener("load", () => {
-      safePlay(frontVideo);
-      safePlay(backVideo);
-    });
-
-    const d = 400;
-    const h = d / 2;
-
-    document.querySelector(".front").style.transform = `translateZ(${h}px)`;
-    document.querySelector(".back").style.transform = `rotateX(180deg) translateZ(${h}px)`;
-    document.querySelector(".top").style.transform = `rotateX(90deg) translateZ(${h}px)`;
-    document.querySelector(".bottom").style.transform = `rotateX(-90deg) translateZ(${h}px)`;
-
-    let rotateX = 0;
-    let count = 0;
-
-    function updateCounter() {
-      const turns = Math.floor(Math.abs(rotateX) / 360);
-      if (turns !== count) {
-        count = turns;
-        counterBox.innerText = String(count).padStart(2, "0");
-        const maxWidth = 160;
-        const width = Math.min(count * 35, maxWidth);
-        progressLeft.style.width = `${width}px`;
-        progressRight.style.width = `${width}px`;
-      }
-    }
-
-    window.addEventListener("wheel", (e) => {
-      rotateX += e.deltaY * 0.08;
-      cube.style.transform = `rotateX(${rotateX}deg)`;
-      updateCounter();
-    });
-
-    let muted = true;
-    soundBtn.onclick = () => {
-      muted = !muted;
-      frontVideo.muted = muted;
-      backVideo.muted = true;
-      soundBtn.innerText = muted ? "SOUND OFF" : "SOUND ON";
-    };
+  if(window.scrollY > triggerPoint){
+    flow += e.deltaY * 0.1;
   }
+});
 
-  if (isIndex) initIndex();
-  if (isDetail) initDetail();
-})();
