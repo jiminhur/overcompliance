@@ -1,7 +1,7 @@
 body{
   margin:0;
+  font-family:Helvetica;
   background:#fff;
-  font-family:'Playfair Display', serif;
   overflow-x:hidden;
 }
 
@@ -11,29 +11,25 @@ body{
   inset:0;
   background:#0a00ff;
   display:flex;
-  justify-content:center;
   align-items:center;
+  justify-content:center;
   z-index:999;
   transition:1s;
 }
 .intro-text{
   color:white;
-  font-size:42px;
+  font-size:36px;
   text-align:center;
-}
-.intro-text span{
-  font-size:14px;
-  opacity:0.7;
 }
 
 /* TITLE */
 #topTitle{
   position:fixed;
-  top:25px;
+  top:20px;
   left:50%;
   transform:translateX(-50%);
-  font-size:14px;
   color:#0a00ff;
+  font-size:14px;
 }
 
 /* CLOCK */
@@ -41,14 +37,15 @@ body{
   position:fixed;
   top:50%;
   left:50%;
-  width:500px;
-  height:500px;
+  width:480px;
+  height:480px;
   transform:translate(-50%,-50%);
-  border:1px solid rgba(10,0,255,0.2);
+  border:1px solid #0a00ff;
   border-radius:50%;
+  z-index:2;
 }
 
-/* HAND */
+/* HANDS */
 .hand{
   position:absolute;
   bottom:50%;
@@ -58,9 +55,8 @@ body{
 
 .hand.blue{
   width:2px;
-  height:250px;
+  height:230px;
   background:#0a00ff;
-  opacity:0.6;
 }
 
 .hand.yellow{
@@ -76,6 +72,7 @@ body{
   color:#0a00ff;
 }
 
+/* 위치 */
 .all{ top:-40px; left:50%; transform:translateX(-50%); }
 .executing{ top:10%; left:50%; transform:translateX(-50%); }
 .aligning{ top:20%; left:85%; }
@@ -87,6 +84,7 @@ body{
 #grid{
   position:fixed;
   inset:0;
+  pointer-events:none;
 }
 
 .grid-line{
@@ -94,7 +92,7 @@ body{
   width:1px;
   height:100%;
   background:#0a00ff;
-  opacity:0.06;
+  opacity:0.15;
 }
 
 /* COMMAND */
@@ -102,17 +100,12 @@ body{
   position:absolute;
   width:260px;
   font-size:14px;
-  line-height:1.5;
-  color:#111;
-  cursor:pointer;
+  line-height:1.4;
+  color:#000;
   transition:0.25s;
 }
 
-.command:hover{
-  transform:translateY(-5px);
-}
-
-/* SIDE */
+/* SIDE VIDEO */
 .side{
   position:fixed;
   top:0;
@@ -134,31 +127,18 @@ body{
 }
 
 .side video{
-  width:90px;
-  opacity:0.15;
-}
-
-/* VIEWER */
-#viewer{
-  position:fixed;
-  top:50%;
-  left:50%;
-  transform:translate(-50%,-50%);
-  width:300px;
-  display:none;
-}
-#viewer video{
-  width:100%;
-  border:2px solid #0a00ff;
+  width:100px;
+  opacity:0.25;
 }
 
 /* END */
 #ending{
   height:100vh;
   display:flex;
-  align-items:center;
   justify-content:center;
+  align-items:center;
 }
+
 #ending video{
   width:60%;
   opacity:0.3;
