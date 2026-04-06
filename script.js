@@ -1,143 +1,106 @@
-const cube = document.getElementById("cube");
-const videoFront = document.getElementById("videoFront");
-const videoBack = document.getElementById("videoBack");
+const container = document.getElementById("commands");
+const viewer = document.getElementById("viewer");
 
-const counterBox = document.getElementById("counterBox");
-const progressLeft = document.getElementById("progressLeft");
-const progressRight = document.getElementById("progressRight");
-const soundBtn = document.getElementById("soundBtn");
-
-/* text restored */
-const blocks = document.querySelectorAll(".text-block");
-let text = "";
-for(let i=0;i<2000;i++){
-  text += "SWIPE TO UNLOCK ";
-}
-blocks.forEach(b => b.textContent = text);
-
-/* geometry */
-const d = 400;
-const h = d / 2;
-
-document.querySelector(".front").style.transform = `translateZ(${h}px)`;
-document.querySelector(".back").style.transform = `rotateX(180deg) translateZ(${h}px)`;
-document.querySelector(".top").style.transform = `rotateX(90deg) translateZ(${h}px)`;
-document.querySelector(".bottom").style.transform = `rotateX(-90deg) translateZ(${h}px)`;
-
-/* ensure both videos play */
-function safePlay(v){
-  const p = v.play();
-  if (p !== undefined) p.catch(() => {});
-}
-
-window.addEventListener("load", () => {
-  safePlay(videoFront);
-  safePlay(videoBack);
-});
-
-/* rotation + counter */
-let rotateX = 0;
-let count = 0;
-
-function updateCounter(){
-  const turns = Math.floor(Math.abs(rotateX) / 360);
-
-  if(turns !== count){
-    count = turns;
-    counterBox.innerText = String(count).padStart(2,"0");
-
-    const maxWidth = 160;
-    const width = Math.min(count * 35, maxWidth);
-
-    progressLeft.style.width = `${width}px`;
-    progressRight.style.width = `${width}px`;
-  }
-}
-
-window.addEventListener("wheel", e => {
-  rotateX += e.deltaY * 0.08;
-  cube.style.transform = `rotateX(${rotateX}deg)`;
-  updateCounter();
-});
-
-/* sound */
-let muted = true;
-soundBtn.onclick = () => {
-  muted = !muted;
-  videoFront.muted = muted;
-  videoBack.muted = true; /* visible front carries sound */
-  soundBtn.innerText = muted ? "SOUND OFF" : "SOUND ON";
+/* 컬럼 */
+const columns = {
+  drifting: 10,
+  suppressing: 25,
+  executing: 50,
+  aligning: 75,
+  waiting: 90
 };
 
-/* trace */
-const words = ["SWIPE","UNLOCK","VERIFY","ACCESS","HOLD","WAIT"];
-let lastX = window.innerWidth / 2;
-let lastY = window.innerHeight / 2;
-let lastT = performance.now();
-let carry = 0;
+/* GRID */
+Object.values(columns).forEach(x=>{
+  const line = document.createElement("div");
+  line.className="grid-line";
+  line.style.left = x+"%";
+  document.getElementById("grid").appendChild(line);
+});
 
-function addTrace(x, y, text) {
-  const el = document.createElement("div");
-  el.className = "trace";
-  el.innerText = text;
-  el.style.left = `${x}px`;
-  el.style.top = `${y}px`;
+/* 충돌 방지 */
+const usedY = [];
 
-  document.body.appendChild(el);
+function getY(){
+  let y, ok;
+  do{
+    y = Math.random()*4000+200;
+    ok=true;
+    for(let u of usedY){
+      if(Math.abs(u-y)<150) ok=false;
+    }
+  }while(!ok);
 
-  requestAnimationFrame(() => {
-    el.style.opacity = "0";
-    el.style.transform = `translateY(-26px)`;
-  });
-
-  setTimeout(() => {
-    el.remove();
-  }, 1900);
+  usedY.push(y);
+  return y;
 }
 
-document.addEventListener("mousemove", e => {
-  const now = performance.now();
-  const dt = Math.max(now - lastT, 16);
+/* 생성 */
+commands.forEach(cmd=>{
+  const el=document.createElement("div");
+  el.className="command";
+  el.innerText=cmd.text;
 
-  const dx = e.clientX - lastX;
-  const dy = e.clientY - lastY;
-  const speed = Math.hypot(dx, dy) / dt;
+  el.style.left=columns[cmd.time]+"%";
+  el.style.top=getY()+"px";
 
-  carry += Math.min(2.8, 0.6 + speed * 4.2);
+  el.onmouseenter=()=>{
+    targetAngle = angles[cmd.time];
+  };
 
-  let burst = Math.floor(carry);
-  carry -= burst;
+  el.onclick=()=>{
+    viewer.style.display="block";
+  };
 
-  if (Math.random() < 0.2) burst = Math.max(0, burst - 1);
-  if (Math.random() < 0.12) burst += 2;
-
-  burst = Math.min(burst, 8);
-
-  const denom = Math.max(Math.abs(dx) + Math.abs(dy), 1);
-  const dirX = dx / denom;
-  const dirY = dy / denom;
-
-  for(let i=0;i<burst;i++){
-    const along = Math.random() * 140;
-    const side = (Math.random() - 0.5) * 46;
-
-    const x =
-      e.clientX -
-      dirX * along +
-      (-dirY) * side +
-      (Math.random() - 0.5) * 14;
-
-    const y =
-      e.clientY -
-      dirY * along +
-      dirX * side +
-      (Math.random() - 0.5) * 14;
-
-    const word = words[Math.floor(Math.random() * words.length)];
-    addTrace(x, y, word);
-  }
-
-  lastX = e.clientX;
-  lastY = e.clientY;
-  lastT = now;
+  container.appendChild(el);
 });
+
+/* 시계 */
+const hand=document.querySelector(".blue");
+const yellow=document.querySelector(".yellow");
+
+const angles={
+  waiting:30,
+  aligning:60,
+  executing:90,
+  suppressing:120,
+  drifting:150
+};
+
+let currentAngle=0;
+let targetAngle=0;
+
+function animate(){
+  currentAngle += (targetAngle-currentAngle)*0.07;
+  hand.style.transform =
+    `translate(-50%,-100%) rotate(${currentAngle}deg)`;
+  requestAnimationFrame(animate);
+}
+animate();
+
+/* 노란 */
+let yAngle=0;
+function yellowMove(){
+  yAngle += 0.03;
+  yellow.style.transform =
+    `translate(-50%,-100%) rotate(${yAngle}deg)`;
+  requestAnimationFrame(yellowMove);
+}
+yellowMove();
+
+/* SIDE VIDEO */
+for(let i=0;i<8;i++){
+  const v=document.createElement("video");
+  v.src="video.mp4";
+  v.autoplay=true;
+  v.loop=true;
+  v.muted=true;
+
+  document.querySelector(".left").appendChild(v);
+  document.querySelector(".right").appendChild(v.cloneNode(true));
+}
+
+/* intro */
+setTimeout(()=>{
+  document.getElementById("intro").style.opacity=0;
+},1500);
