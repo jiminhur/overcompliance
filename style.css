@@ -1,14 +1,15 @@
 body{
   margin:0;
-  font-family:Helvetica;
   background:#fff;
+  font-family:Helvetica;
   overflow-x:hidden;
 }
 
-/* INTRO */
+/* intro */
 #intro{
   position:fixed;
-  inset:0;
+  width:100%;
+  height:100vh;
   background:#0a00ff;
   display:flex;
   align-items:center;
@@ -16,130 +17,90 @@ body{
   z-index:999;
   transition:1s;
 }
-.intro-text{
+.title-box{
   color:white;
   font-size:36px;
   text-align:center;
+  background:#0a00ff;
+  padding:40px;
+}
+.title-box span{
+  font-size:14px;
+  opacity:0.7;
 }
 
-/* TITLE */
+/* top */
 #topTitle{
   position:fixed;
   top:20px;
   left:50%;
   transform:translateX(-50%);
-  color:#0a00ff;
   font-size:14px;
+  color:#0a00ff;
+  z-index:10;
 }
 
-/* CLOCK */
+/* clock */
 #clock{
   position:fixed;
   top:50%;
   left:50%;
-  width:480px;
-  height:480px;
+  width:500px;
+  height:500px;
   transform:translate(-50%,-50%);
   border:1px solid #0a00ff;
   border-radius:50%;
-  z-index:2;
 }
 
-/* HANDS */
+/* hands */
 .hand{
   position:absolute;
   bottom:50%;
   left:50%;
   transform-origin:bottom;
 }
-
 .hand.blue{
   width:2px;
-  height:230px;
+  height:240px;
   background:#0a00ff;
 }
-
-.hand.yellow{
+.hand.red{
   width:1px;
-  height:200px;
-  background:#ffd400;
+  height:160px;
+  background:red;
 }
 
-/* LABEL */
+/* labels outside */
 .label{
   position:absolute;
   font-size:12px;
   color:#0a00ff;
 }
 
-/* 위치 */
+/* precise placement */
 .all{ top:-40px; left:50%; transform:translateX(-50%); }
+
 .executing{ top:10%; left:50%; transform:translateX(-50%); }
+
 .aligning{ top:20%; left:85%; }
 .suppressing{ top:20%; left:5%; }
+
 .waiting{ bottom:15%; left:80%; }
 .drifting{ bottom:15%; left:5%; }
 
-/* GRID */
-#grid{
-  position:fixed;
-  inset:0;
-  pointer-events:none;
+/* commands */
+#commands{
+  position:relative;
+  width:100%;
+  margin-top:600px;
 }
 
-.grid-line{
-  position:absolute;
-  width:1px;
-  height:100%;
-  background:#0a00ff;
-  opacity:0.15;
-}
-
-/* COMMAND */
 .command{
   position:absolute;
   width:260px;
   font-size:14px;
   line-height:1.4;
-  color:#000;
-  transition:0.25s;
-}
-
-/* SIDE VIDEO */
-.side{
-  position:fixed;
-  top:0;
-  width:12%;
-  height:100%;
-  display:flex;
-  flex-direction:column;
-  justify-content:space-around;
-}
-
-.side.left{
-  left:0;
-  transform:perspective(800px) rotateY(10deg);
-}
-
-.side.right{
-  right:0;
-  transform:perspective(800px) rotateY(-10deg);
-}
-
-.side video{
-  width:100px;
-  opacity:0.25;
-}
-
-/* END */
-#ending{
-  height:100vh;
-  display:flex;
-  justify-content:center;
-  align-items:center;
-}
-
-#ending video{
-  width:60%;
-  opacity:0.3;
+  color:black;
+  transition:0.3s;
+  cursor:pointer;
 }
