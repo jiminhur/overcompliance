@@ -1,32 +1,33 @@
 const container = document.getElementById("commands");
 
-/* 컬럼 위치 */
+/* -----------------------------
+   컬럼 위치 (딱 고정)
+----------------------------- */
 const columns = {
   drifting: 10,
   suppressing: 25,
   executing: 50,
-  aligning: 75,
-  waiting: 90
+  aligning: 70,
+  waiting: 85
 };
 
-/* GRID 생성 */
-Object.values(columns).forEach(x=>{
-  const line = document.createElement("div");
-  line.className = "grid-line";
-  line.style.left = x + "%";
-  document.getElementById("grid").appendChild(line);
-});
-
-/* 충돌 방지 */
+/* -----------------------------
+   충돌 방지 Y 저장
+----------------------------- */
 const usedY = [];
 
+/* -----------------------------
+   랜덤 배치 함수
+----------------------------- */
 function getY(){
   let y, ok;
   do{
     y = Math.random()*4000 + 200;
     ok = true;
     for(let u of usedY){
-      if(Math.abs(u - y) < 150) ok=false;
+      if(Math.abs(u - y) < 180){
+        ok = false;
+      }
     }
   }while(!ok);
 
@@ -34,15 +35,21 @@ function getY(){
   return y;
 }
 
-/* 생성 */
+/* -----------------------------
+   생성
+----------------------------- */
 commands.forEach(cmd=>{
+
   const el = document.createElement("div");
   el.className = "command";
   el.innerText = cmd.text;
 
-  el.style.left = columns[cmd.time] + "%";
+  const x = columns[cmd.time];
+
+  el.style.left = x + "%";
   el.style.top = getY() + "px";
 
+  /* hover → 초침 이동 */
   el.onmouseenter = ()=>{
     targetAngle = angles[cmd.time];
   };
@@ -50,54 +57,48 @@ commands.forEach(cmd=>{
   container.appendChild(el);
 });
 
-/* 시계 */
-const hand = document.querySelector(".blue");
-const yellow = document.querySelector(".yellow");
+
+/* -----------------------------
+   시계
+----------------------------- */
+const hand = document.querySelector(".hand.blue");
+const hand2 = document.querySelector(".hand.red");
 
 const angles = {
-  waiting:30,
-  aligning:60,
-  executing:90,
-  suppressing:120,
-  drifting:150
+  waiting: 30,
+  aligning: 60,
+  executing: 90,
+  suppressing: 120,
+  drifting: 150
 };
 
-let currentAngle=0;
-let targetAngle=0;
+let currentAngle = 0;
+let targetAngle = 0;
 
 function animate(){
   currentAngle += (targetAngle-currentAngle)*0.08;
+
   hand.style.transform =
     `translate(-50%,-100%) rotate(${currentAngle}deg)`;
+
   requestAnimationFrame(animate);
 }
 animate();
 
-/* 노란 */
-let yAngle=0;
-function yellowMove(){
-  yAngle += 0.05;
-  yellow.style.transform =
-    `translate(-50%,-100%) rotate(${yAngle}deg)`;
-  requestAnimationFrame(yellowMove);
+/* red */
+let red=0;
+function redMove(){
+  red+=0.2;
+  hand2.style.transform =
+    `translate(-50%,-100%) rotate(${red}deg)`;
+  requestAnimationFrame(redMove);
 }
-yellowMove();
+redMove();
 
-/* SIDE VIDEO */
-for(let i=0;i<8;i++){
-  const v1 = document.createElement("video");
-  v1.src="./video.mp4";
-  v1.autoplay=true;
-  v1.loop=true;
-  v1.muted=true;
 
-  const v2 = v1.cloneNode(true);
-
-  document.querySelector(".left").appendChild(v1);
-  document.querySelector(".right").appendChild(v2);
-}
-
-/* intro */
+/* -----------------------------
+   intro
+----------------------------- */
 setTimeout(()=>{
   document.getElementById("intro").style.opacity=0;
 },1500);
