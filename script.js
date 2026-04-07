@@ -1,4 +1,4 @@
-/* autoplay 안정 */
+/* autoplay */
 document.querySelectorAll("video").forEach(v=>{
   v.muted=true;
   v.play().catch(()=>{});
@@ -6,11 +6,10 @@ document.querySelectorAll("video").forEach(v=>{
 
 /* intro */
 setTimeout(()=>{
-  document.getElementById("introTitle").classList.add("shrink");
+  introTitle.classList.add("shrink");
 },1000);
 
 /* grid */
-const grid=document.getElementById("grid");
 for(let i=0;i<24;i++){
   const l=document.createElement("div");
   l.className="grid-line";
@@ -18,12 +17,13 @@ for(let i=0;i<24;i++){
   grid.appendChild(l);
 }
 
-/* sides */
+/* 🔥 감시카메라 */
 function build(target){
   for(let i=0;i<8;i++){
     const v=document.createElement("video");
     v.src="./videos/swipetounlock_1.mp4";
-    v.muted=true;v.loop=true;
+    v.muted=true;
+    v.loop=true;
 
     v.addEventListener("loadedmetadata",()=>{
       v.currentTime=Math.random()*v.duration;
@@ -37,9 +37,6 @@ build(leftSide);
 build(rightSide);
 
 /* clock */
-const hand=document.getElementById("hand");
-const hand2=document.getElementById("hand2");
-
 setInterval(()=>{
   const d=new Date();
   hand.style.transform=`translate(-50%,-100%) rotate(${d.getMinutes()*6}deg)`;
@@ -47,22 +44,17 @@ setInterval(()=>{
 },1000);
 
 /* commands */
-const commandsEl=document.getElementById("commands");
-const preview=document.getElementById("preview");
 const pv=preview.querySelector("video");
-const clock=document.querySelector(".clock");
 
 COMMANDS.forEach(cmd=>{
   const el=document.createElement("div");
   el.className="command";
 
-  const id=String(cmd.id).padStart(2,"0");
-
   el.style.left=`${Math.random()*window.innerWidth}px`;
   el.style.top=`${500+Math.random()*5000}px`;
 
   el.innerHTML=`
-    <div class="cmd-id">#${id}</div>
+    <div class="cmd-id">#${cmd.id}</div>
     <div class="cmd-text">${cmd.text}</div>
     <div class="meta-box">
       ${cmd.time} · ${cmd.context} · ${cmd.action}
@@ -71,30 +63,40 @@ COMMANDS.forEach(cmd=>{
 
   el.onmouseenter=(e)=>{
     preview.style.display="block";
-    preview.style.left=e.clientX+"px";
-    preview.style.top=e.clientY+"px";
+
+    let x=e.clientX+12;
+    let y=e.clientY-80;
+
+    if(x>window.innerWidth-240) x=e.clientX-240;
+    if(y<20) y=20;
+
+    preview.style.left=x+"px";
+    preview.style.top=y+"px";
 
     if(!pv.src.includes(cmd.video)){
       pv.src="./videos/"+cmd.video;
       pv.load();
     }
-    pv.play();
 
-    clock.classList.add("active");
+    pv.play();
+    document.querySelector(".clock").classList.add("active");
+  };
+
+  el.onmousemove=(e)=>{
+    preview.style.left=(e.clientX+12)+"px";
+    preview.style.top=(e.clientY-80)+"px";
   };
 
   el.onmouseleave=()=>{
     preview.style.display="none";
-    clock.classList.remove("active");
+    document.querySelector(".clock").classList.remove("active");
   };
 
-  commandsEl.appendChild(el);
+  commands.appendChild(el);
 });
 
 /* cube */
-const cube=document.getElementById("cube");
 let angle=0;
-
 function loop(){
   angle+=0.3;
   cube.style.transform=`rotateX(${angle}deg)`;
