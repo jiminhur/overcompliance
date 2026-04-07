@@ -4,18 +4,15 @@ document.querySelectorAll("video").forEach(v=>{
   v.play().catch(()=>{});
 });
 
-/* intro */
-setTimeout(()=>{
-  introTitle.classList.add("shrink");
-},1000);
+/* 🔥 grid 3줄 */
+const grid=document.getElementById("grid");
 
-/* grid */
-for(let i=0;i<24;i++){
+[0.4,0.5,0.6].forEach(p=>{
   const l=document.createElement("div");
   l.className="grid-line";
-  l.style.left=`${(i/24)*100}%`;
+  l.style.left=(p*100)+"%";
   grid.appendChild(l);
-}
+});
 
 /* 🔥 감시카메라 */
 function build(target){
@@ -33,34 +30,57 @@ function build(target){
     target.appendChild(v);
   }
 }
+
 build(leftSide);
 build(rightSide);
 
-/* clock */
-setInterval(()=>{
-  const d=new Date();
-  hand.style.transform=`translate(-50%,-100%) rotate(${d.getMinutes()*6}deg)`;
-  hand2.style.transform=`translate(-50%,-100%) rotate(${d.getSeconds()*6}deg)`;
-},1000);
+/* 🔥 중앙 3열 배치 */
+const centerStart=window.innerWidth*0.4;
+const colWidth=window.innerWidth*0.2;
 
-/* commands */
+function getX(){
+  const col=Math.floor(Math.random()*3);
+  return centerStart + col*(colWidth/3);
+}
+
+/* 🔥 시계 */
+const hand=document.getElementById("hand");
+const clock=document.querySelector(".clock");
+
+const angles={
+  aligning:30,
+  waiting:60,
+  executing:90,
+  suppressing:120,
+  drifting:150,
+  all:180
+};
+
+/* 🔥 commands */
 const pv=preview.querySelector("video");
 
 COMMANDS.forEach(cmd=>{
   const el=document.createElement("div");
   el.className="command";
 
-  el.style.left=`${Math.random()*window.innerWidth}px`;
-  el.style.top=`${500+Math.random()*5000}px`;
+  el.style.left=getX()+"px";
+  el.style.top=(600+Math.random()*5000)+"px";
 
   el.innerHTML=`
     <div class="cmd-id">#${cmd.id}</div>
     <div class="cmd-text">${cmd.text}</div>
-    <div class="meta-box">
-      ${cmd.time} · ${cmd.context} · ${cmd.action}
-    </div>
+    <div class="meta-box">${cmd.time}</div>
   `;
 
+  const meta=el.querySelector(".meta-box");
+
+  /* 🔥 메타 클릭 → 분침 */
+  meta.onclick=()=>{
+    const angle=angles[cmd.time]||180;
+    hand.style.transform=`translate(-50%,-100%) rotate(${angle}deg)`;
+  };
+
+  /* 🔥 hover */
   el.onmouseenter=(e)=>{
     preview.style.display="block";
 
@@ -79,7 +99,7 @@ COMMANDS.forEach(cmd=>{
     }
 
     pv.play();
-    document.querySelector(".clock").classList.add("active");
+    clock.classList.add("active");
   };
 
   el.onmousemove=(e)=>{
@@ -89,17 +109,8 @@ COMMANDS.forEach(cmd=>{
 
   el.onmouseleave=()=>{
     preview.style.display="none";
-    document.querySelector(".clock").classList.remove("active");
+    clock.classList.remove("active");
   };
 
   commands.appendChild(el);
 });
-
-/* cube */
-let angle=0;
-function loop(){
-  angle+=0.3;
-  cube.style.transform=`rotateX(${angle}deg)`;
-  requestAnimationFrame(loop);
-}
-loop();
