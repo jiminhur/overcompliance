@@ -1,3 +1,7 @@
+/* ========================= */
+/* 기본 */
+/* ========================= */
+
 const introTitle = document.getElementById("introTitle");
 const leftSide = document.getElementById("leftSide");
 const rightSide = document.getElementById("rightSide");
@@ -5,100 +9,180 @@ const grid = document.getElementById("grid");
 const commandsEl = document.getElementById("commands");
 const preview = document.getElementById("preview");
 const previewVideo = preview.querySelector("video");
-const hand = document.getElementById("hand");
-const hand2 = document.getElementById("hand2");
+
+const hand = document.getElementById("hand");   // 🔥 분침
+const hand2 = document.getElementById("hand2"); // 🔥 초침
 
 let currentFilter = "all";
 let redAngle = 0;
 
+/* ========================= */
 /* intro */
-setTimeout(()=> introTitle.classList.add("shrink"),1000);
+/* ========================= */
 
-/* 감시카메라 + 시차 */
-function buildSide(target){
+setTimeout(()=>{
+  introTitle.classList.add("shrink");
+},1000);
+
+/* ========================= */
+/* 🔥 감시카메라 (완전 복구 + 시차) */
+/* ========================= */
+
+function buildSideColumn(target){
+
+  target.innerHTML = "";
+
   for(let i=0;i<8;i++){
-    const v=document.createElement("video");
-    v.src="./videos/swipetounlock_1.mp4";
-    v.autoplay=true; v.muted=true; v.loop=true;
-    v.addEventListener("loadedmetadata",()=> v.currentTime=i*0.25);
+
+    const v = document.createElement("video");
+
+    v.src = "./videos/swipetounlock_1.mp4";
+    v.autoplay = true;
+    v.muted = true;
+    v.loop = true;
+    v.playsInline = true;
+
+    // 🔥 핵심: 시차
+    v.addEventListener("loadedmetadata", ()=>{
+      v.currentTime = i * 0.3;
+    });
+
     target.appendChild(v);
   }
 }
-buildSide(leftSide);
-buildSide(rightSide);
 
-/* grid */
-for(let i=0;i<24;i++){
-  const line=document.createElement("div");
-  line.className="grid-line";
-  line.style.left=`${(i/24)*100}%`;
-  grid.appendChild(line);
-}
+buildSideColumn(leftSide);
+buildSideColumn(rightSide);
 
-/* 시계 */
-const angles={all:180,aligning:30,waiting:60,executing:90,suppressing:120,drifting:150};
+/* ========================= */
+/* GRID 유지 */
+/* ========================= */
 
-function moveHand(t){
-  hand.style.transform=`translate(-50%,-100%) rotate(${angles[t]}deg)`;
-}
+function drawGrid(){
+  grid.innerHTML = "";
 
-function red(){
-  redAngle+=0.4;
-  hand2.style.transform=`translate(-50%,-100%) rotate(${redAngle}deg)`;
-  requestAnimationFrame(red);
-}
-red();
-
-/* 필터 */
-document.querySelectorAll(".filter-chip").forEach(btn=>{
-  btn.onclick=()=>{
-    currentFilter=btn.dataset.type;
-    document.querySelectorAll(".filter-chip").forEach(b=>b.classList.remove("active"));
-    btn.classList.add("active");
-    moveHand(currentFilter);
-    render();
+  for(let i=0;i<24;i++){
+    const line = document.createElement("div");
+    line.className = "grid-line";
+    line.style.left = `${(i/24)*100}%`;
+    grid.appendChild(line);
   }
+}
+
+drawGrid();
+
+/* ========================= */
+/* 🔥 시계 완전 복구 */
+/* ========================= */
+
+const typeAngles = {
+  all: 180,
+  aligning: 30,
+  waiting: 60,
+  executing: 90,
+  suppressing: 120,
+  drifting: 150
+};
+
+/* 🔥 분침 */
+function moveBlueHand(type){
+
+  const angle = typeAngles[type] ?? 180;
+
+  hand.style.transition = "transform 0.5s ease";
+
+  hand.style.transform =
+    `translate(-50%, -100%) rotate(${angle}deg)`;
+}
+
+/* 🔥 초침 */
+function animateRedHand(){
+  redAngle += 0.4;
+
+  hand2.style.transform =
+    `translate(-50%, -100%) rotate(${redAngle}deg)`;
+
+  requestAnimationFrame(animateRedHand);
+}
+
+animateRedHand();
+
+/* ========================= */
+/* 🔥 필터 */
+/* ========================= */
+
+const filterButtons = document.querySelectorAll(".filter-chip");
+
+filterButtons.forEach(btn=>{
+
+  btn.addEventListener("click",()=>{
+
+    currentFilter = btn.dataset.type.toLowerCase();
+
+    filterButtons.forEach(b=>b.classList.remove("active"));
+    btn.classList.add("active");
+
+    moveBlueHand(currentFilter); // 🔥 분침 이동
+
+    renderCommands();
+  });
+
 });
 
-/* commands */
-function render(){
+/* ========================= */
+/* 🔥 COMMAND */
+/* ========================= */
 
-  commandsEl.innerHTML="";
+function renderCommands(){
 
-  const cx=window.innerWidth*0.5;
+  commandsEl.innerHTML = "";
+
+  const centerX = window.innerWidth * 0.5;
 
   COMMANDS.forEach(cmd=>{
-    const el=document.createElement("div");
-    el.className="command";
 
-    if(currentFilter!=="all" && cmd.time!==currentFilter){
+    const el = document.createElement("div");
+    el.className = "command";
+
+    const type = (cmd.time || "").toLowerCase().trim();
+
+    if(currentFilter !== "all" && type !== currentFilter){
       el.classList.add("dim");
     }
 
-    el.style.left=`${cx+(Math.random()-0.5)*260}px`;
-    el.style.top=`${window.innerHeight*0.6+Math.random()*3000}px`;
+    el.style.left = `${centerX + (Math.random()-0.5)*260}px`;
+    el.style.top = `${window.innerHeight*0.65 + Math.random()*3000}px`;
 
-    el.innerHTML=`
+    el.innerHTML = `
       <div class="text">${cmd.text}</div>
       <div class="meta">${cmd.time} · ${cmd.context} · ${cmd.action}</div>
     `;
 
-    el.onmouseenter=e=>{
-      el.classList.add("active");
-      preview.style.display="block";
-      preview.style.left=e.clientX+10+"px";
-      preview.style.top=e.clientY-80+"px";
-      previewVideo.src=`./videos/${cmd.video}`;
-    };
+    /* hover */
+    el.addEventListener("mouseenter",(e)=>{
 
-    el.onmouseleave=()=>{
+      preview.style.display="block";
+
+      preview.style.left =
+        `${Math.min(window.innerWidth-230, e.clientX+10)}px`;
+
+      preview.style.top =
+        `${Math.max(20, e.clientY-80)}px`;
+
+      previewVideo.src = `./videos/${cmd.video}`;
+
+      el.classList.add("active");
+    });
+
+    el.addEventListener("mouseleave",()=>{
       preview.style.display="none";
       el.classList.remove("active");
-    };
+    });
 
     commandsEl.appendChild(el);
   });
 }
 
-moveHand("all");
-render();
+/* 초기 실행 */
+moveBlueHand("all");
+renderCommands();
