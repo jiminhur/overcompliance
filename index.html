@@ -2,13 +2,16 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Terms and Conditions</title>
-  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@300;400&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="style.css" />
+
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@300;400&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="style.css"/>
 </head>
+
 <body>
 
+  <!-- title -->
   <div id="introTitle">
     <div class="title-bg">
       <div class="main-title">TERMS AND CONDITIONS</div>
@@ -16,9 +19,11 @@
     </div>
   </div>
 
+  <!-- CCTV -->
   <div class="side left" id="leftSide"></div>
   <div class="side right" id="rightSide"></div>
 
+  <!-- filter (위치 내려줌) -->
   <div class="filter-panel">
     <button class="filter-chip active" data-type="all">ALL</button>
     <button class="filter-chip" data-type="aligning">ALIGNING</button>
@@ -28,61 +33,45 @@
     <button class="filter-chip" data-type="drifting">DRIFTING</button>
   </div>
 
-  <div class="clock">
-    <div class="ring">
-      <div class="clock-fill"></div>
-
-      <div class="tick tick-12"></div>
-      <div class="tick tick-3"></div>
-      <div class="tick tick-6"></div>
-      <div class="tick tick-9"></div>
-
-      <div class="hand" id="hand"></div>
-      <div class="hand2" id="hand2"></div>
-    </div>
-  </div>
+  <!-- 🔥 원 삭제됨 -->
 
   <div id="grid"></div>
   <main id="commands"></main>
 
+  <!-- preview -->
   <div id="preview">
     <div class="preview-frame">
-      <video autoplay muted loop playsinline src="./videos/swipetounlock_1.mp4"></video>
+      <video autoplay muted loop playsinline></video>
     </div>
   </div>
 
+  <!-- cube -->
   <section class="bottom-section">
-    <div class="bottom-glow"></div>
-
     <div class="cube-scene">
-      <div class="cube" id="cube">
+      <div class="cube">
+
         <div class="face front">
-          <video autoplay muted loop playsinline src="./videos/swipetounlock_1.mp4"></video>
+          <video id="frontVideo" autoplay muted loop playsinline src="./videos/swipetounlock_1.mp4"></video>
         </div>
+
         <div class="face back">
-          <video autoplay muted loop playsinline src="./videos/swipetounlock_1.mp4"></video>
+          <video id="backVideo" autoplay muted loop playsinline src="./videos/swipetounlock_1.mp4"></video>
         </div>
-        <div class="face top">
-          <div class="cube-text" id="cubeTopText"></div>
-        </div>
-        <div class="face bottom">
-          <div class="cube-text" id="cubeBottomText"></div>
-        </div>
+
       </div>
     </div>
 
     <div class="trapped-label">YOU HAVE BEEN TRAPPED FOR</div>
 
     <div class="counter-wrap">
-      <div class="progress-side progress-left">
-        <div class="progress-fill" id="progressLeft"></div>
-      </div>
+      <div class="progress-fill" id="progressLeft"></div>
       <div class="counter-box" id="count">00</div>
-      <div class="progress-side progress-right">
-        <div class="progress-fill" id="progressRight"></div>
-      </div>
+      <div class="progress-fill" id="progressRight"></div>
     </div>
   </section>
+
+  <!-- 🔥 speaker -->
+  <div id="soundToggle">speaker off</div>
 
   <script src="data.js"></script>
   <script src="script.js"></script>
