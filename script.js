@@ -1,26 +1,29 @@
-/* autoplay */
+/* autoplay 안정 */
 document.querySelectorAll("video").forEach(v=>{
   v.muted=true;
   v.play().catch(()=>{});
 });
 
-/* 🔥 grid 3줄 */
-const grid=document.getElementById("grid");
+/* intro */
+setTimeout(()=>{
+  document.getElementById("introTitle").classList.add("shrink");
+},1000);
 
-[0.4,0.5,0.6].forEach(p=>{
+/* grid */
+const grid=document.getElementById("grid");
+for(let i=0;i<24;i++){
   const l=document.createElement("div");
   l.className="grid-line";
-  l.style.left=(p*100)+"%";
+  l.style.left=`${(i/24)*100}%`;
   grid.appendChild(l);
-});
+}
 
-/* 🔥 감시카메라 */
+/* sides */
 function build(target){
   for(let i=0;i<8;i++){
     const v=document.createElement("video");
     v.src="./videos/swipetounlock_1.mp4";
-    v.muted=true;
-    v.loop=true;
+    v.muted=true;v.loop=true;
 
     v.addEventListener("loadedmetadata",()=>{
       v.currentTime=Math.random()*v.duration;
@@ -30,81 +33,54 @@ function build(target){
     target.appendChild(v);
   }
 }
-
 build(leftSide);
 build(rightSide);
 
-/* 🔥 중앙 3열 배치 */
-const centerStart=window.innerWidth*0.4;
-const colWidth=window.innerWidth*0.2;
-
-function getX(){
-  const col=Math.floor(Math.random()*3);
-  return centerStart + col*(colWidth/3);
-}
-
-/* 🔥 시계 */
+/* clock */
 const hand=document.getElementById("hand");
-const clock=document.querySelector(".clock");
+const hand2=document.getElementById("hand2");
 
-const angles={
-  aligning:30,
-  waiting:60,
-  executing:90,
-  suppressing:120,
-  drifting:150,
-  all:180
-};
+setInterval(()=>{
+  const d=new Date();
+  hand.style.transform=`translate(-50%,-100%) rotate(${d.getMinutes()*6}deg)`;
+  hand2.style.transform=`translate(-50%,-100%) rotate(${d.getSeconds()*6}deg)`;
+},1000);
 
-/* 🔥 commands */
+/* commands */
+const commandsEl=document.getElementById("commands");
+const preview=document.getElementById("preview");
 const pv=preview.querySelector("video");
+const clock=document.querySelector(".clock");
 
 COMMANDS.forEach(cmd=>{
   const el=document.createElement("div");
   el.className="command";
 
-  el.style.left=getX()+"px";
-  el.style.top=(600+Math.random()*5000)+"px";
+  const id=String(cmd.id).padStart(2,"0");
+
+  el.style.left=`${Math.random()*window.innerWidth}px`;
+  el.style.top=`${500+Math.random()*5000}px`;
 
   el.innerHTML=`
-    <div class="cmd-id">#${cmd.id}</div>
+    <div class="cmd-id">#${id}</div>
     <div class="cmd-text">${cmd.text}</div>
-    <div class="meta-box">${cmd.time}</div>
+    <div class="meta-box">
+      ${cmd.time} · ${cmd.context} · ${cmd.action}
+    </div>
   `;
 
-  const meta=el.querySelector(".meta-box");
-
-  /* 🔥 메타 클릭 → 분침 */
-  meta.onclick=()=>{
-    const angle=angles[cmd.time]||180;
-    hand.style.transform=`translate(-50%,-100%) rotate(${angle}deg)`;
-  };
-
-  /* 🔥 hover */
   el.onmouseenter=(e)=>{
     preview.style.display="block";
-
-    let x=e.clientX+12;
-    let y=e.clientY-80;
-
-    if(x>window.innerWidth-240) x=e.clientX-240;
-    if(y<20) y=20;
-
-    preview.style.left=x+"px";
-    preview.style.top=y+"px";
+    preview.style.left=e.clientX+"px";
+    preview.style.top=e.clientY+"px";
 
     if(!pv.src.includes(cmd.video)){
       pv.src="./videos/"+cmd.video;
       pv.load();
     }
-
     pv.play();
-    clock.classList.add("active");
-  };
 
-  el.onmousemove=(e)=>{
-    preview.style.left=(e.clientX+12)+"px";
-    preview.style.top=(e.clientY-80)+"px";
+    clock.classList.add("active");
   };
 
   el.onmouseleave=()=>{
@@ -112,5 +88,16 @@ COMMANDS.forEach(cmd=>{
     clock.classList.remove("active");
   };
 
-  commands.appendChild(el);
+  commandsEl.appendChild(el);
 });
+
+/* cube */
+const cube=document.getElementById("cube");
+let angle=0;
+
+function loop(){
+  angle+=0.3;
+  cube.style.transform=`rotateX(${angle}deg)`;
+  requestAnimationFrame(loop);
+}
+loop();
