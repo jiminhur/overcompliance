@@ -2,50 +2,73 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Terms and Conditions</title>
-  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@300;400&display=swap" rel="stylesheet"/>
-  <link rel="stylesheet" href="style.css"/>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@300;400&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
 </head>
 <body>
 
-<div id="introTitle">
-  <div class="title-bg">
-    <div class="main-title">TERMS AND CONDITIONS</div>
-    <div class="sub-title">A COLLECTION OF EVERYDAY COMMANDS</div>
-  </div>
-</div>
-
-<div class="side left" id="leftSide"></div>
-<div class="side right" id="rightSide"></div>
-
-<div class="clock">
-  <div class="ring">
-    <div class="clock-fill"></div>
-    <div class="hand" id="hand"></div>
-    <div class="hand2" id="hand2"></div>
-  </div>
-</div>
-
-<div id="grid"></div>
-<main id="commands"></main>
-
-<div id="preview">
-  <video autoplay muted loop playsinline></video>
-</div>
-
-<section class="bottom-section">
-  <div class="cube" id="cube">
-    <div class="face front">
-      <video id="frontVideo" autoplay muted loop playsinline src="./videos/swipetounlock_1.mp4"></video>
-    </div>
-    <div class="face back">
-      <video id="backVideo" autoplay muted loop playsinline src="./videos/swipetounlock_1.mp4"></video>
+  <div id="introTitle">
+    <div class="title-bg">
+      <div class="main-title">TERMS AND CONDITIONS</div>
+      <div class="sub-title">A COLLECTION OF EVERYDAY COMMANDS</div>
     </div>
   </div>
-</section>
 
-<script src="data.js"></script>
-<script src="script.js"></script>
+  <div class="side left" id="leftSide"></div>
+  <div class="side right" id="rightSide"></div>
+
+  <div class="filter-panel">
+    <button class="filter-chip active" data-type="all">ALL</button>
+    <button class="filter-chip" data-type="aligning">ALIGNING</button>
+    <button class="filter-chip" data-type="waiting">WAITING</button>
+    <button class="filter-chip" data-type="executing">EXECUTING</button>
+    <button class="filter-chip" data-type="suppressing">SUPPRESSING</button>
+    <button class="filter-chip" data-type="drifting">DRIFTING</button>
+  </div>
+
+  <div class="clock">
+    <div class="ring">
+      <div class="clock-fill"></div>
+      <div class="hand" id="hand"></div>
+      <div class="hand2" id="hand2"></div>
+    </div>
+  </div>
+
+  <div id="grid"></div>
+  <main id="commands"></main>
+
+  <div id="preview">
+    <div class="preview-frame">
+      <video autoplay muted loop playsinline></video>
+    </div>
+  </div>
+
+  <section class="bottom-section">
+    <div class="cube-scene">
+      <div class="cube" id="cube">
+        <div class="face front">
+          <video id="frontVideo" autoplay muted loop playsinline src="./videos/swipetounlock_1.mp4"></video>
+        </div>
+        <div class="face back">
+          <video id="backVideo" autoplay muted loop playsinline src="./videos/swipetounlock_1.mp4"></video>
+        </div>
+      </div>
+    </div>
+
+    <div class="trapped-label">YOU HAVE BEEN TRAPPED FOR</div>
+
+    <div class="counter-wrap">
+      <div class="progress-fill" id="progressLeft"></div>
+      <div class="counter-box" id="count">00</div>
+      <div class="progress-fill" id="progressRight"></div>
+    </div>
+
+    <button class="sound-toggle" id="soundToggle">speaker off</button>
+  </section>
+
+  <script src="data.js"></script>
+  <script src="script.js"></script>
 </body>
 </html>
