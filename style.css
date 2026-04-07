@@ -66,6 +66,10 @@ body{
 /* side */
 /* ========================= */
 
+/* ========================= */
+/* side (CCTV 느낌 강화) */
+/* ========================= */
+
 .side{
   position:fixed;
   top:0;
@@ -73,23 +77,29 @@ body{
   height:100vh;
   display:flex;
   flex-direction:column;
-  justify-content:space-between;
-  padding:18px;
+  padding:0;              /* 🔥 여백 제거 */
+  gap:0;                  /* 🔥 간격 제거 */
   pointer-events:none;
   z-index:20;
 }
 
 .side.left{
   left:0;
+  transform:none;         /* 🔥 투시 제거 */
 }
 
 .side.right{
   right:0;
+  transform:none;         /* 🔥 투시 제거 */
 }
 
 .side video{
-  width:120px;
-  opacity:0.25;
+  width:100%;
+  height:calc(100vh / 8);   /* 🔥 8등분 꽉 채우기 */
+  object-fit:cover;
+  opacity:0.35;
+
+  filter:grayscale(100%) contrast(110%); /* 👉 감시 느낌 */
 }
 
 
