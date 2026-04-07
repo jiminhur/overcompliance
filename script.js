@@ -1,3 +1,18 @@
+document.querySelectorAll("video").forEach(v => {
+  v.muted = true;
+  v.playsInline = true;
+
+  const playPromise = v.play();
+
+  if (playPromise !== undefined) {
+    playPromise.catch(() => {
+      // iOS 대응
+      v.muted = true;
+      v.play();
+    });
+  }
+});
+
 /* autoplay 안정 */
 document.querySelectorAll("video").forEach(v=>{
   v.muted=true;
