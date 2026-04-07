@@ -82,26 +82,32 @@ body{
   z-index:1000;
 }
 
+/* 🔥 기본 숨김 */
 .ring{
   width:420px;
   height:420px;
   border-radius:50%;
   background:transparent;
-  transition:0.4s;
+  opacity:0;
+  transition:opacity 0.4s ease, background 0.4s ease;
 }
 
-/* hover 시 등장 */
+/* 🔥 등장 */
 .clock.active .ring{
   background:rgba(0,0,0,0.08);
+  opacity:1;
 }
 
-/* hands */
-.hand,.hand2{
+/* 🔥 핵심 */
+.hand,
+.hand2{
   position:absolute;
   top:50%;
   left:50%;
+
   transform-origin:50% 100%;
-  transform:translate(-50%,-50%);
+  transform:translate(-50%,-100%);
+
   opacity:0;
   transition:0.4s;
 }
@@ -141,10 +147,12 @@ body{
   display:none;
   z-index:3000;
 }
+
 .preview-frame{
   background:#2047ff;
   padding:4px;
 }
+
 .preview-frame video{
   width:100%;
 }
