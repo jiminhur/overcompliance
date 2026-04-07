@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8"/>
+  <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Terms and Conditions</title>
 
@@ -11,92 +11,106 @@
 
 <body>
 
-  <!-- TITLE -->
-  <div id="introTitle">
+  <!-- ========================= -->
+  <!-- TITLE (최상단 레이어) -->
+  <!-- ========================= -->
+  <header id="introTitle">
     <div class="title-bg">
       <div class="main-title">TERMS AND CONDITIONS</div>
       <div class="sub-title">A COLLECTION OF EVERYDAY COMMANDS</div>
     </div>
-  </div>
+  </header>
 
-  <!-- CCTV -->
+
+  <!-- ========================= -->
+  <!-- CCTV SIDE -->
+  <!-- ========================= -->
   <div class="side left" id="leftSide"></div>
   <div class="side right" id="rightSide"></div>
 
-  <!-- FILTER -->
-  <div class="filter-panel">
+
+  <!-- ========================= -->
+  <!-- FILTER (title 아래로 고정) -->
+  <!-- ========================= -->
+  <nav class="filter-panel">
     <button class="filter-chip active" data-type="all">ALL</button>
     <button class="filter-chip" data-type="aligning">ALIGNING</button>
     <button class="filter-chip" data-type="waiting">WAITING</button>
     <button class="filter-chip" data-type="executing">EXECUTING</button>
     <button class="filter-chip" data-type="suppressing">SUPPRESSING</button>
     <button class="filter-chip" data-type="drifting">DRIFTING</button>
-  </div>
+  </nav>
 
-  <!-- CLOCK -->
+
+  <!-- ========================= -->
+  <!-- CLOCK (중앙 시스템) -->
+  <!-- ========================= -->
   <div class="clock">
-    <div class="ring">
-      <div class="hand" id="hand"></div>   <!-- 분침 -->
-      <div class="hand2" id="hand2"></div> <!-- 초침 -->
-    </div>
+    <div class="ring"></div>
   </div>
 
+
+  <!-- ========================= -->
   <!-- GRID -->
+  <!-- ========================= -->
   <div id="grid"></div>
 
-  <!-- COMMAND -->
+
+  <!-- ========================= -->
+  <!-- COMMANDS -->
+  <!-- ========================= -->
   <main id="commands"></main>
 
+
+  <!-- ========================= -->
   <!-- PREVIEW -->
+  <!-- ========================= -->
   <div id="preview">
     <div class="preview-frame">
       <video autoplay muted loop playsinline></video>
     </div>
   </div>
 
-  <!-- BOTTOM -->
+
+  <!-- ========================= -->
+  <!-- BOTTOM (CUBE) -->
+  <!-- ========================= -->
   <section class="bottom-section">
 
     <div class="cube-scene">
       <div class="cube">
 
-        <!-- 위 영상 -->
-        <div class="cube-half cube-top">
-          <video autoplay muted loop playsinline src="./videos/swipetounlock_1.mp4"></video>
+        <div class="face front">
+          <video id="frontVideo" autoplay muted loop playsinline src="./videos/swipetounlock_1.mp4"></video>
         </div>
 
-        <!-- 가운데 텍스트 -->
-        <div class="cube-text">
-          SWIPE TO UNLOCK<br/>
-          SWIPE TO UNLOCK
-        </div>
-
-        <!-- 아래 영상 -->
-        <div class="cube-half cube-bottom">
-          <video autoplay muted loop playsinline src="./videos/swipetounlock_1.mp4"></video>
+        <div class="face back">
+          <video id="backVideo" autoplay muted loop playsinline src="./videos/swipetounlock_1.mp4"></video>
         </div>
 
       </div>
     </div>
 
-    <!-- TRAPPED -->
     <div class="trapped-label">YOU HAVE BEEN TRAPPED FOR</div>
 
     <div class="counter-wrap">
-      <div class="progress-side progress-left">
-        <div class="progress-fill" id="progressLeft"></div>
-      </div>
-
+      <div class="progress-fill" id="progressLeft"></div>
       <div class="counter-box" id="count">00</div>
-
-      <div class="progress-side progress-right">
-        <div class="progress-fill" id="progressRight"></div>
-      </div>
+      <div class="progress-fill" id="progressRight"></div>
     </div>
 
   </section>
 
-  <!-- SCRIPT -->
+
+  <!-- ========================= -->
+  <!-- SPEAKER -->
+  <!-- ========================= -->
+  <div id="soundToggle">speaker off</div>
+
+
+  <!-- ========================= -->
+  <!-- SCRIPTS -->
+  <!-- ========================= -->
   <script src="data.js"></script>
   <script src="script.js"></script>
 
