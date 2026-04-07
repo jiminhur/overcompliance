@@ -1,64 +1,283 @@
+:root{
+  --blue:#2047ff;
+  --gray:#d8d8d8;
+}
+
+/* reset */
+*{ box-sizing:border-box; margin:0; padding:0; }
+
+body{
+  font-family:"IBM Plex Mono", monospace;
+  background:#fff;
+  color:var(--blue);
+  overflow-x:hidden;
+}
+
 /* ========================= */
-/* COMMAND 중앙 3줄 제한 */
+/* title */
+/* ========================= */
+
+#introTitle{
+  position:fixed;
+  top:50%;
+  left:50%;
+  transform:translate(-50%,-50%);
+  z-index:3000;
+  transition:all 1s ease;
+}
+
+#introTitle.shrink{
+  top:20px;
+  transform:translate(-50%,0);
+}
+
+.title-bg{
+  background:rgba(0,0,0,0.85);
+  padding:10px 16px;
+}
+
+.main-title{ color:#fff; font-size:20px; }
+.sub-title{ color:#fff; font-size:10px; opacity:0.6; }
+
+/* ========================= */
+/* CCTV */
+/* ========================= */
+
+.side{
+  position:fixed;
+  top:0;
+  width:14vw;
+  height:100vh;
+  display:flex;
+  flex-direction:column;
+  padding:0;
+  z-index:20;
+}
+
+.side.left{ left:0; }
+.side.right{ right:0; }
+
+.side video{
+  width:100%;
+  height:calc(100vh / 8);
+  object-fit:cover;
+  opacity:0.35;
+  filter:grayscale(100%) contrast(110%);
+}
+
+/* ========================= */
+/* filter */
+/* ========================= */
+
+.filter-panel{
+  position:fixed;
+  top:130px;
+  left:50%;
+  transform:translateX(-50%);
+  display:flex;
+  gap:8px;
+  z-index:2000;
+}
+
+.filter-chip{
+  border:1px solid rgba(32,71,255,.2);
+  padding:5px 7px;
+  font-size:9px;
+  background:#fff;
+  cursor:pointer;
+}
+
+.filter-chip.active{
+  background:rgba(32,71,255,.1);
+}
+
+/* ========================= */
+/* grid */
+/* ========================= */
+
+#grid{
+  position:fixed;
+  inset:0;
+}
+
+.grid-line{
+  position:absolute;
+  width:1px;
+  height:100vh;
+  background:rgba(32,71,255,0.1);
+}
+
+/* ========================= */
+/* commands */
 /* ========================= */
 
 #commands{
   position:relative;
-  width:100%;
+  min-height:10000px;
+  z-index:50;
 }
 
 .command{
   position:absolute;
-  width:320px;
-  left:50%;
-  transform:translateX(-50%);
-  text-align:left;
+  width:260px;
+  font-size:11px;
+  line-height:1.5;
+  cursor:pointer;
 }
 
-/* 중앙 3라인 */
-.command.line-1{ transform:translate(-50%, -120px); }
-.command.line-2{ transform:translate(-50%, 0px); }
-.command.line-3{ transform:translate(-50%, 120px); }
+.command.dim{ opacity:0.08; }
 
+.cmd-index{
+  font-size:9px;
+  opacity:0.5;
+  margin-bottom:4px;
+}
+
+.meta{
+  font-size:8px;
+  opacity:0.4;
+}
 
 /* ========================= */
-/* HOVER COLOR INVERT */
+/* preview */
+/* ========================= */
+
+#preview{
+  position:fixed;
+  width:220px;
+  display:none;
+  z-index:3000;
+}
+
+.preview-frame{
+  background:var(--blue);
+  padding:4px;
+}
+
+.preview-frame video{
+  width:100%;
+}
+
+/* ========================= */
+/* 🔵 CLOCK (핵심) */
+/* ========================= */
+
+.clock{
+  position:fixed;
+  top:50%;
+  left:50%;
+  transform:translate(-50%,-50%);
+  z-index:10;
+}
+
+.ring{
+  width:420px;
+  height:420px;
+  border-radius:50%;
+  background:transparent;
+  transition:0.3s ease;
+}
+
+/* 👉 hover 시 채워짐 */
+.ring.active{
+  background:var(--blue);
+}
+
+/* ========================= */
+/* cube */
+/* ========================= */
+
+.bottom-section{
+  margin-top:8000px;
+  height:2000px;
+}
+
+.cube-scene{
+  position:sticky;
+  top:120px;
+  width:700px;
+  height:420px;
+  margin:auto;
+  opacity:0;
+  transform:translateY(80px);
+  transition:.6s;
+}
+
+.cube-scene.active{
+  opacity:1;
+  transform:translateY(0);
+}
+
+.cube{
+  width:100%;
+  height:100%;
+  overflow:hidden;
+  background:#2047ff;
+}
+
+.face{
+  position:absolute;
+  inset:0;
+}
+
+.face video{
+  position:absolute;
+  width:100%;
+  height:200%;
+  object-fit:cover;
+}
+
+.front video{ top:0; }
+.back video{ top:-50%; }
+
+/* ========================= */
+/* counter */
+/* ========================= */
+
+.counter-wrap{
+  display:flex;
+  justify-content:center;
+  gap:10px;
+  margin-top:20px;
+}
+
+.progress-fill{
+  width:0;
+  height:6px;
+  background:var(--gray);
+}
+
+.counter-box{
+  border:1px solid var(--blue);
+  padding:4px 10px;
+}
+
+/* ========================= */
+/* speaker */
+/* ========================= */
+
+#soundToggle{
+  position:fixed;
+  bottom:20px;
+  right:20px;
+  font-size:10px;
+  cursor:pointer;
+}
+
+/* ========================= */
+/* 🔥 hover invert */
 /* ========================= */
 
 body.invert{
   background:#2047ff;
-  color:#ffffff;
+  color:#fff;
 }
 
 body.invert .grid-line{
   background:rgba(255,255,255,0.2);
 }
 
-body.invert .command{
-  color:#ffffff;
-}
-
-body.invert .meta{
-  background:#ffffff;
-  color:#2047ff;
-  padding:2px 4px;
-}
-
-
-/* ========================= */
-/* META 기본 스타일 */
-/* ========================= */
-
-.meta{
-  margin-top:6px;
-  font-size:8px;
-  opacity:0.5;
-  display:inline-block;
-}
-
-.trapped-label{
-  text-align:center;
-  margin-top:80px;
-  font-size:12px;
-  letter-spacing:0.1em;
+body.invert .filter-chip{
+  color:#fff;
+  border-color:#fff;
 }
