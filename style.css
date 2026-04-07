@@ -106,10 +106,9 @@ body{
   left:50%;
 
   transform-origin:50% 100%;
-  transform:translate(-50%,-100%);
+  transform:translate(-50%,-100%); /* 🔥 이거 */
 
   opacity:0;
-  transition:0.4s;
 }
 
 .clock.active .hand,
