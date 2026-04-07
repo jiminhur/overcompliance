@@ -1,123 +1,64 @@
-/* ===== FIX ONLY ===== */
+/* ========================= */
+/* COMMAND 중앙 3줄 제한 */
+/* ========================= */
 
-/* grid 유지 */
-#grid{
-  position:fixed;
-  inset:0;
-  pointer-events:none;
-  z-index:5;
+#commands{
+  position:relative;
+  width:100%;
 }
 
-.grid-line{
+.command{
   position:absolute;
-  top:0;
-  width:1px;
-  height:100vh;
-  background:var(--grid-blue);
+  width:320px;
+  left:50%;
+  transform:translateX(-50%);
+  text-align:left;
 }
 
-/* hover 반전 */
+/* 중앙 3라인 */
+.command.line-1{ transform:translate(-50%, -120px); }
+.command.line-2{ transform:translate(-50%, 0px); }
+.command.line-3{ transform:translate(-50%, 120px); }
+
+
+/* ========================= */
+/* HOVER COLOR INVERT */
+/* ========================= */
+
 body.invert{
   background:#2047ff;
   color:#ffffff;
 }
 
 body.invert .grid-line{
-  background:rgba(255,255,255,0.25);
+  background:rgba(255,255,255,0.2);
 }
 
-body.invert .meta{
-  background:#ffffff;
-  color:#2047ff;
-}
-
-/* 시계 (기본 투명) */
-.ring{
-  background:transparent !important;
-  border:1px solid rgba(32,71,255,0.25);
-}
-
-/* hover 때만 채움 */
-body.invert .ring{
-  background:#2047ff;
-}
-
-/* 감시카메라 꽉 채우기 */
-.side{
-  padding:0 !important;
-  gap:0 !important;
-}
-
-.side video{
-  height:12.5vh !important;
-  width:100%;
-  object-fit:cover;
-}
-
-/* 명령 위치 안정화 */
-.command{
-  width:260px;
-}
-
-/* 3열 고정 */
-.command.col-1{ left:calc(50% - 360px); }
-.command.col-2{ left:50%; transform:translateX(-50%); }
-.command.col-3{ left:calc(50% + 100px); }
-
-/* ===== FINAL FIX ===== */
-
-/* GRID (무조건 유지) */
-#grid{
-  position:fixed;
-  inset:0;
-  pointer-events:none;
-  z-index:5;
-}
-.grid-line{
-  position:absolute;
-  top:0;
-  width:1px;
-  height:100vh;
-  background:var(--grid-blue);
-}
-
-/* HOVER INVERT */
-body.invert{
-  background:#2047ff;
+body.invert .command{
   color:#ffffff;
 }
-body.invert .grid-line{
-  background:rgba(255,255,255,0.25);
-}
+
 body.invert .meta{
   background:#ffffff;
   color:#2047ff;
+  padding:2px 4px;
 }
 
-/* CLOCK (기본 투명 → hover 때만) */
-.ring{
-  background:transparent !important;
-}
-body.invert .ring{
-  background:#2047ff;
+
+/* ========================= */
+/* META 기본 스타일 */
+/* ========================= */
+
+.meta{
+  margin-top:6px;
+  font-size:8px;
+  opacity:0.5;
+  display:inline-block;
 }
 
-/* CCTV 꽉 채우기 */
-.side{
-  padding:0 !important;
-  gap:0 !important;
+.trapped-label{
+  text-align:center;
+  margin-top:80px;
+  font-size:12px;
+  letter-spacing:0.1em;
 }
-.side video{
-  width:100%;
-  height:12.5vh;
-  object-fit:cover;
-  opacity:0.32;
-}
-
-/* COMMAND 3열 고정 */
-.command{
-  width:260px;
-}
-.command.col-1{ left:calc(50% - 360px); }
-.command.col-2{ left:50%; transform:translateX(-50%); }
-.command.col-3{ left:calc(50% + 100px); }
