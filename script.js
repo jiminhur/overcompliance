@@ -221,3 +221,15 @@ window.addEventListener("wheel", (e) => {
   }
 });
 
+/* 🔥 모든 영상 강제 autoplay */
+
+function forcePlayAllVideos(){
+  const videos = document.querySelectorAll("video");
+
+  videos.forEach(v => {
+    v.muted = true;
+    v.play().catch(() => {});
+  });
+}
+
+window.addEventListener("load", forcePlayAllVideos);
