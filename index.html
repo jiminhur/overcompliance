@@ -1,17 +1,17 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Terms and Conditions</title>
 
-  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@300;400;500&display=swap" rel="stylesheet"/>
-  <link rel="stylesheet" href="style.css"/>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
 
-<!-- 제목 -->
+<!-- TITLE -->
 <div id="introTitle">
   <div class="title-bg">
     <div class="main-title">TERMS AND CONDITIONS</div>
@@ -19,11 +19,11 @@
   </div>
 </div>
 
-<!-- 감시카메라 -->
+<!-- SIDE VIDEO -->
 <div class="side left" id="leftSide"></div>
 <div class="side right" id="rightSide"></div>
 
-<!-- 필터 -->
+<!-- FILTER -->
 <div class="filter-panel">
   <button class="filter-chip active" data-type="all">ALL</button>
   <button class="filter-chip" data-type="aligning">ALIGNING</button>
@@ -33,20 +33,20 @@
   <button class="filter-chip" data-type="drifting">DRIFTING</button>
 </div>
 
-<!-- 시계 (원 없음) -->
+<!-- CLOCK -->
 <div class="clock" id="clock">
   <div class="clock-bg"></div>
   <div class="hand minute" id="hand"></div>
   <div class="hand second" id="hand2"></div>
 </div>
 
-<!-- grid -->
+<!-- GRID -->
 <div id="grid"></div>
 
-<!-- 명령 -->
+<!-- COMMANDS -->
 <main id="commands"></main>
 
-<!-- preview -->
+<!-- PREVIEW -->
 <div id="preview">
   <video id="previewVideo" autoplay muted loop playsinline></video>
 </div>
