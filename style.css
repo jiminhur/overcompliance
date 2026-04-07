@@ -4,11 +4,7 @@
 }
 
 /* reset */
-*{
-  box-sizing:border-box;
-  margin:0;
-  padding:0;
-}
+*{ box-sizing:border-box; margin:0; padding:0; }
 
 body{
   font-family:"IBM Plex Mono", monospace;
@@ -38,7 +34,6 @@ body{
 .title-bg{
   background:rgba(0,0,0,0.85);
   padding:10px 16px;
-  text-align:center;
 }
 
 .main-title{ color:#fff; font-size:20px; }
@@ -119,6 +114,7 @@ body{
 #commands{
   position:relative;
   min-height:10000px;
+  z-index:50;
 }
 
 .command{
@@ -126,11 +122,10 @@ body{
   width:260px;
   font-size:11px;
   line-height:1.5;
+  cursor:pointer;
 }
 
-.command.dim{
-  opacity:0.08;
-}
+.command.dim{ opacity:0.08; }
 
 .cmd-index{
   font-size:9px;
@@ -161,6 +156,31 @@ body{
 
 .preview-frame video{
   width:100%;
+}
+
+/* ========================= */
+/* 🔵 CLOCK (핵심) */
+/* ========================= */
+
+.clock{
+  position:fixed;
+  top:50%;
+  left:50%;
+  transform:translate(-50%,-50%);
+  z-index:10;
+}
+
+.ring{
+  width:420px;
+  height:420px;
+  border-radius:50%;
+  background:transparent;
+  transition:0.3s ease;
+}
+
+/* 👉 hover 시 채워짐 */
+.ring.active{
+  background:var(--blue);
 }
 
 /* ========================= */
