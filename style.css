@@ -12,16 +12,11 @@
   padding:0;
 }
 
-html, body{
-  width:100%;
-}
-
 body{
   font-family:"IBM Plex Mono", monospace;
-  color:var(--blue);
   background:#a9a9a9;
   min-height:10000px;
-  overflow-x:hidden;
+  color:var(--blue);
 }
 
 /* ========================= */
@@ -35,7 +30,7 @@ body{
   transform:translate(-50%,-50%);
   text-align:center;
   z-index:3000;
-  transition:all 1.1s ease;
+  transition:1s;
 }
 
 #introTitle.shrink{
@@ -44,49 +39,12 @@ body{
 }
 
 .title-bg{
-  background:rgba(0,0,0,0.82);
+  background:rgba(0,0,0,0.8);
   padding:10px 16px;
-  backdrop-filter:blur(6px);
 }
 
-.main-title{
-  color:#fff;
-  font-size:22px;
-}
-
-.sub-title{
-  color:#fff;
-  opacity:0.6;
-  font-size:10px;
-  margin-top:4px;
-}
-
-/* ========================= */
-/* SIDE CAMERA */
-/* ========================= */
-
-.side{
-  position:fixed;
-  top:0;
-  width:12vw;
-  height:100vh;
-  display:flex;
-  flex-direction:column;
-  padding:0;
-  overflow:hidden;
-  pointer-events:none;
-  z-index:20;
-}
-
-.side.left{ left:0; }
-.side.right{ right:0; }
-
-.side video{
-  width:100%;
-  height:12.5vh;
-  object-fit:cover;
-  opacity:0.3;
-}
+.main-title{ color:#fff; font-size:22px; }
+.sub-title{ color:#fff; opacity:0.6; font-size:10px; }
 
 /* ========================= */
 /* FILTER */
@@ -99,7 +57,7 @@ body{
   transform:translateX(-50%);
   display:flex;
   gap:10px;
-  z-index:2500;
+  z-index:2000;
 }
 
 .filter-chip{
@@ -107,9 +65,8 @@ body{
   color:#2047ff;
   border:none;
   padding:6px 10px;
-  cursor:pointer;
   font-size:10px;
-  transition:0.2s;
+  cursor:pointer;
 }
 
 .filter-chip.active{
@@ -124,8 +81,7 @@ body{
 #grid{
   position:fixed;
   inset:0;
-  pointer-events:none;
-  z-index:200;
+  z-index:100;
 }
 
 .grid-line{
@@ -141,42 +97,40 @@ body{
 
 .command{
   position:absolute;
-  width:280px;
+  width:320px;
 
-  display:flex;
-  flex-direction:column;
-  gap:4px;
+  padding:12px 14px;
 
-  padding:8px 10px;
+  background:rgba(0,0,0,0.85); /* 🔥 전체 감싸는 박스 */
+  backdrop-filter:blur(6px);
 
-  background:rgba(0,0,0,0.75);   /* 🔥 검정 박스 */
-  backdrop-filter:blur(4px);
-
-  font-size:11px;
+  color:#ffffff;
 
   transition:opacity 0.6s ease, transform 0.2s ease;
 }
 
-/* 🔥 명령어 한 줄 */
+/* 명령어 */
 .command .text{
-  color:#ffffff;
-  white-space:nowrap;
-  overflow:hidden;
-  text-overflow:ellipsis;
+  display:block;
+  font-size:11px;
+  line-height:1.4;
 }
 
-/* 🔥 메타데이터 */
+/* 메타데이터 */
 .command .meta{
-  color:#bdbdbd;
+  display:block;
+  margin-top:6px;
+
   font-size:9px;
+  color:#cfcfcf;
 }
 
-/* 🔥 필터 흐림 */
+/* 필터 */
 .command.dim{
   opacity:0.15;
 }
 
-/* 🔥 hover 시 강조 */
+/* hover */
 .command.active{
   opacity:1 !important;
   transform:translateY(-2px);
@@ -201,43 +155,4 @@ body{
 
 .preview-frame video{
   width:100%;
-}
-
-/* ========================= */
-/* CLOCK (유지용) */
-/* ========================= */
-
-.clock{
-  position:fixed;
-  top:52%;
-  left:50%;
-  transform:translate(-50%,-50%);
-  pointer-events:none;
-}
-
-.ring{
-  width:420px;
-  height:420px;
-  border-radius:50%;
-  border:1px solid rgba(32,71,255,0.26);
-  position:relative;
-}
-
-.hand,
-.hand2{
-  position:absolute;
-  top:50%;
-  left:50%;
-  width:2px;
-  transform-origin:50% 100%;
-}
-
-.hand{
-  height:280px;
-  background:#2047ff;
-}
-
-.hand2{
-  height:145px;
-  background:#e22a2a;
 }
