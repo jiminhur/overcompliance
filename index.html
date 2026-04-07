@@ -2,48 +2,57 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Terms and Conditions</title>
-  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@300;400;500&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="style.css" />
+
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@300;400;500&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="style.css"/>
 </head>
+
 <body>
 
-  <div id="introTitle">
-    <div class="title-bg">
-      <div class="main-title">TERMS AND CONDITIONS</div>
-      <div class="sub-title">A COLLECTION OF EVERYDAY COMMANDS</div>
-    </div>
+<!-- 제목 -->
+<div id="introTitle">
+  <div class="title-bg">
+    <div class="main-title">TERMS AND CONDITIONS</div>
+    <div class="sub-title">A COLLECTION OF EVERYDAY COMMANDS</div>
   </div>
+</div>
 
-  <div class="side left" id="leftSide"></div>
-  <div class="side right" id="rightSide"></div>
+<!-- 감시카메라 -->
+<div class="side left" id="leftSide"></div>
+<div class="side right" id="rightSide"></div>
 
-  <div class="filter-panel">
-    <button class="filter-chip active" data-type="all">ALL</button>
-    <button class="filter-chip" data-type="aligning">ALIGNING</button>
-    <button class="filter-chip" data-type="waiting">WAITING</button>
-    <button class="filter-chip" data-type="executing">EXECUTING</button>
-    <button class="filter-chip" data-type="suppressing">SUPPRESSING</button>
-    <button class="filter-chip" data-type="drifting">DRIFTING</button>
-  </div>
+<!-- 필터 -->
+<div class="filter-panel">
+  <button class="filter-chip active" data-type="all">ALL</button>
+  <button class="filter-chip" data-type="aligning">ALIGNING</button>
+  <button class="filter-chip" data-type="waiting">WAITING</button>
+  <button class="filter-chip" data-type="executing">EXECUTING</button>
+  <button class="filter-chip" data-type="suppressing">SUPPRESSING</button>
+  <button class="filter-chip" data-type="drifting">DRIFTING</button>
+</div>
 
-  <div class="clock" id="clock">
-    <div class="clock-reveal"></div>
-    <div class="hand minute-hand" id="hand"></div>
-    <div class="hand second-hand" id="hand2"></div>
-  </div>
+<!-- 시계 (원 없음) -->
+<div class="clock" id="clock">
+  <div class="clock-bg"></div>
+  <div class="hand minute" id="hand"></div>
+  <div class="hand second" id="hand2"></div>
+</div>
 
-  <div id="grid"></div>
-  <main id="commands"></main>
+<!-- grid -->
+<div id="grid"></div>
 
-  <div id="preview">
-    <div class="preview-frame">
-      <video id="previewVideo" autoplay muted loop playsinline></video>
-    </div>
-  </div>
+<!-- 명령 -->
+<main id="commands"></main>
 
-  <script src="data.js"></script>
-  <script src="script.js"></script>
+<!-- preview -->
+<div id="preview">
+  <video id="previewVideo" autoplay muted loop playsinline></video>
+</div>
+
+<script src="data.js"></script>
+<script src="script.js"></script>
+
 </body>
 </html>
