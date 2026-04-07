@@ -1,60 +1,51 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Terms and Conditions</title>
-
-  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@300;400&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="style.css">
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@300;400&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="style.css"/>
 </head>
-
 <body>
 
-  <!-- 🔥 타이틀 -->
-  <div id="introTitle">
-    <div class="title-bg">
-      <div class="main-title">TERMS AND CONDITIONS</div>
-      <div class="sub-title">A COLLECTION OF EVERYDAY COMMANDS</div>
-    </div>
+<div id="introTitle">
+  <div class="title-bg">
+    <div class="main-title">TERMS AND CONDITIONS</div>
+    <div class="sub-title">A COLLECTION OF EVERYDAY COMMANDS</div>
   </div>
+</div>
 
-  <!-- 🔥 감시 카메라 -->
-  <div class="side left" id="leftSide"></div>
-  <div class="side right" id="rightSide"></div>
+<div class="side left" id="leftSide"></div>
+<div class="side right" id="rightSide"></div>
 
-  <!-- 🔥 시계 -->
-  <div class="clock">
-    <div class="ring"></div>
+<div class="clock">
+  <div class="ring">
+    <div class="clock-fill"></div>
     <div class="hand" id="hand"></div>
+    <div class="hand2" id="hand2"></div>
   </div>
+</div>
 
-  <!-- 🔥 grid -->
-  <div id="grid"></div>
+<div id="grid"></div>
+<main id="commands"></main>
 
-  <!-- 🔥 명령 -->
-  <main id="commands"></main>
+<div id="preview">
+  <video autoplay muted loop playsinline></video>
+</div>
 
-  <!-- 🔥 hover preview -->
-  <div id="preview">
-    <video autoplay muted loop playsinline></video>
-  </div>
-
-  <!-- 🔥 하단 -->
-  <section class="bottom-section">
-    <div class="cube" id="cube">
-      <div class="face front">
-        <video autoplay muted loop playsinline src="./videos/swipetounlock_1.mp4"></video>
-      </div>
-      <div class="face back">
-        <video autoplay muted loop playsinline src="./videos/swipetounlock_1.mp4"></video>
-      </div>
+<section class="bottom-section">
+  <div class="cube" id="cube">
+    <div class="face front">
+      <video id="frontVideo" autoplay muted loop playsinline src="./videos/swipetounlock_1.mp4"></video>
     </div>
-  </section>
+    <div class="face back">
+      <video id="backVideo" autoplay muted loop playsinline src="./videos/swipetounlock_1.mp4"></video>
+    </div>
+  </div>
+</section>
 
-  <!-- 🔥 데이터 + 스크립트 -->
-  <script src="data.js"></script>
-  <script src="script.js"></script>
-
+<script src="data.js"></script>
+<script src="script.js"></script>
 </body>
 </html>
