@@ -71,13 +71,39 @@ body{
 /* COMMAND */
 .command{
   position:absolute;
-  width:260px;
+  width:280px;
+
   font-size:11px;
+  color:#2047ff;
+
+  display:flex;
+  flex-direction:column;
+  gap:4px;
+
   transition:opacity 0.6s ease;
 }
 
+/* 🔥 명령어 한 줄 */
+.command .text{
+  white-space:nowrap;
+  overflow:hidden;
+  text-overflow:ellipsis;
+}
+
+/* 🔥 메타데이터 아래줄 */
+.command .meta{
+  font-size:9px;
+  opacity:0.45;
+}
+
+/* 🔥 흐림 */
 .command.dim{
   opacity:0.15;
+}
+
+/* 🔥 hover 시 다시 선명 */
+.command.active{
+  opacity:1 !important;
 }
 
 /* PREVIEW */
