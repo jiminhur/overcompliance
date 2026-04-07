@@ -10,27 +10,7 @@ body{
   min-height:10000px;
 }
 
-/* title */
-#introTitle{
-  position:fixed;
-  top:50%;
-  left:50%;
-  transform:translate(-50%,-50%);
-  z-index:3000;
-  transition:1s;
-}
-#introTitle.shrink{
-  top:20px;
-  transform:translate(-50%,0);
-}
-
-.title-bg{
-  background:#000;
-  color:#fff;
-  padding:10px;
-}
-
-/* 🔥 감시 카메라 */
+/* 🔥 감시카메라 */
 .side{
   position:fixed;
   top:0;
@@ -40,6 +20,7 @@ body{
   flex-direction:column;
   overflow:hidden;
 }
+
 .side video{
   width:100%;
   height:12.5vh;
@@ -47,27 +28,30 @@ body{
   opacity:0.35;
 }
 
-/* grid */
+/* 🔥 grid (3줄만) */
 #grid{
   position:fixed;
   inset:0;
-  z-index:10;
+  z-index:5;
 }
+
 .grid-line{
   position:absolute;
   width:1px;
   height:100vh;
-  background:rgba(32,71,255,0.12);
+  background:rgba(32,71,255,0.2);
 }
 
-/* commands */
+/* 🔥 commands 중앙 3열 */
 #commands{
   position:relative;
+  width:100%;
   z-index:100;
 }
+
 .command{
   position:absolute;
-  width:260px;
+  width:240px;
   color:#fff;
 }
 
@@ -85,16 +69,22 @@ body{
   margin-bottom:6px;
 }
 
-/* 메타 */
+/* 🔥 메타 클릭 가능 */
 .meta-box{
   background:#fff;
   color:#000;
   border:1px solid var(--blue);
   padding:6px;
   font-size:9px;
+  cursor:pointer;
 }
 
-/* 🔥 시계 (핵심) */
+/* 🔥 hover 시 강조 */
+.command:hover{
+  outline:1px solid var(--blue);
+}
+
+/* 🔥 시계 */
 .clock{
   position:fixed;
   top:50%;
@@ -108,40 +98,25 @@ body{
   height:320px;
   border-radius:50%;
   border:1px solid var(--blue);
-
-  /* 🔥 평소에는 안 보이게 */
   opacity:0;
-  transition:opacity 0.3s ease;
+  transition:0.3s;
 }
 
 .clock.active .ring{
-  opacity:0.25; /* hover 시 나타남 */
+  opacity:0.25;
 }
 
-.clock-fill{
-  position:absolute;
-  inset:0;
-  background:var(--blue);
-  opacity:0;
-  border-radius:50%;
-  transition:.3s;
-}
-
-.clock.active .clock-fill{
-  opacity:0.06;
-}
-
-.hand,.hand2{
+.hand{
   position:absolute;
   top:50%;
   left:50%;
   width:2px;
+  height:120px;
+  background:var(--blue);
   transform-origin:50% 100%;
 }
-.hand{height:120px;background:var(--blue);}
-.hand2{height:80px;background:red;}
 
-/* preview */
+/* 🔥 preview */
 #preview{
   position:fixed;
   width:220px;
@@ -149,25 +124,9 @@ body{
   pointer-events:none;
   z-index:3000;
 }
+
 #preview video{
   width:100%;
   border:1px solid var(--blue);
   background:#000;
-}
-
-/* cube */
-.cube{
-  width:300px;
-  height:200px;
-  margin:200px auto;
-  transform-style:preserve-3d;
-}
-.face{
-  position:absolute;
-  inset:0;
-}
-.face video{
-  width:100%;
-  height:100%;
-  object-fit:cover;
 }
