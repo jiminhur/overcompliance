@@ -35,7 +35,7 @@ const commandsEl = document.getElementById("commands");
 const preview = document.getElementById("preview");
 const hand = document.getElementById("hand");
 const hand2 = document.getElementById("hand2");
-const cubeScene = document.getElementById("cubeScene");
+const cubeScene = document.querySelector(".cube-scene");
 
 const countEl = document.getElementById("count");
 const progressLeft = document.getElementById("progressLeft");
@@ -52,7 +52,7 @@ setTimeout(() => {
 
 
 /* ========================= */
-/* side videos */
+/* 🔥 CCTV SIDE (랜덤 시간차 최종) */
 /* ========================= */
 
 function buildSideColumn(target){
@@ -60,11 +60,18 @@ function buildSideColumn(target){
 
   for(let i=0;i<8;i++){
     const v = document.createElement("video");
+
     v.src = "./videos/swipetounlock_1.mp4";
-    v.autoplay = true;
     v.muted = true;
     v.loop = true;
     v.playsInline = true;
+    v.autoplay = true;
+
+    /* 🔥 랜덤 + 시간차 핵심 */
+    v.addEventListener("loadedmetadata", () => {
+      v.currentTime = i * (0.2 + Math.random() * 0.2);
+    });
+
     target.appendChild(v);
   }
 }
@@ -144,7 +151,7 @@ filterButtons.forEach(btn => {
 
 
 /* ========================= */
-/* commands (#01 스타일) */
+/* commands (#01 구조) */
 /* ========================= */
 
 function renderCommands(){
@@ -190,11 +197,10 @@ function renderCommands(){
       <div class="meta">${cmd.time} · ${cmd.context} · ${cmd.action}</div>
     `;
 
-    /* hover preview */
     el.addEventListener("mouseenter", (e) => {
       preview.style.display = "block";
-      preview.style.left = `${e.clientX + 10}px`;
-      preview.style.top = `${e.clientY - 80}px`;
+      preview.style.left = `${Math.min(window.innerWidth - 230, e.clientX + 10)}px`;
+      preview.style.top = `${Math.max(20, e.clientY - 80)}px`;
       preview.querySelector("video").src = `./videos/${cmd.video}`;
     });
 
@@ -212,27 +218,29 @@ renderCommands();
 
 
 /* ========================= */
-/* cube */
+/* cube (평면 + 흐름) */
 /* ========================= */
 
-const frontVideo = document.getElementById("frontVideo");
-const backVideo = document.getElementById("backVideo");
+const frontVideo = document.querySelector(".front video");
+const backVideo = document.querySelector(".back video");
 
 frontVideo.style.top = "0%";
 backVideo.style.top = "-50%";
 
-/* 시간차 */
 backVideo.addEventListener("loadedmetadata", () => {
   backVideo.currentTime = 0.3;
 });
 
-/* 등장 */
 window.addEventListener("scroll", () => {
   const trigger = document.body.scrollHeight - window.innerHeight - 500;
-  cubeScene.classList.toggle("active", window.scrollY > trigger);
+
+  if(window.scrollY > trigger){
+    cubeScene.classList.add("active");
+  } else {
+    cubeScene.classList.remove("active");
+  }
 });
 
-/* 흐름 */
 let flow = 0;
 
 function animateCube(){
@@ -279,12 +287,14 @@ window.addEventListener("wheel", (e)=>{
 const toggle = document.getElementById("soundToggle");
 let soundOn = false;
 
-toggle.addEventListener("click", ()=>{
-  soundOn = !soundOn;
+if(toggle){
+  toggle.addEventListener("click", ()=>{
+    soundOn = !soundOn;
 
-  document.querySelectorAll(".cube video").forEach(v=>{
-    v.muted = !soundOn;
+    document.querySelectorAll(".cube video").forEach(v=>{
+      v.muted = !soundOn;
+    });
+
+    toggle.textContent = soundOn ? "speaker on" : "speaker off";
   });
-
-  toggle.textContent = soundOn ? "speaker on" : "speaker off";
-});
+}
