@@ -13,20 +13,24 @@ let redAngle = 0;
 /* 🔥 감시카메라 */
 function buildSide(target){
 
-  target.innerHTML = "";
-
   for(let i=0;i<8;i++){
 
     const v = document.createElement("video");
 
     v.src = "./videos/swipetounlock_1.mp4";
+
     v.autoplay = true;
     v.muted = true;
     v.loop = true;
+    v.playsInline = true;
 
-    v.onloadeddata = ()=>{
-      v.currentTime = i * 0.2;
-    };
+    v.setAttribute("playsinline","");
+    v.setAttribute("webkit-playsinline","");
+
+    v.addEventListener("loadedmetadata",()=>{
+      v.currentTime = i * 0.25;
+      v.play().catch(()=>{});
+    });
 
     target.appendChild(v);
   }
@@ -75,11 +79,10 @@ document.querySelectorAll(".filter-chip").forEach(btn=>{
   }
 });
 
-/* commands */
+/* COMMAND */
 function render(){
 
   commandsEl.innerHTML="";
-
   const cx=window.innerWidth*0.5;
 
   COMMANDS.forEach(cmd=>{
@@ -95,8 +98,10 @@ function render(){
     el.style.top=`${window.innerHeight*0.6+Math.random()*3000}px`;
 
     el.innerHTML=`
-      <div class="text">${cmd.text}</div>
-      <div class="meta">${cmd.time} · ${cmd.context} · ${cmd.action}</div>
+      <div>${cmd.text}</div>
+      <div style="font-size:9px; margin-top:6px; color:#ccc;">
+        ${cmd.time} · ${cmd.context} · ${cmd.action}
+      </div>
     `;
 
     el.onmouseenter=e=>{
@@ -104,6 +109,7 @@ function render(){
       preview.style.left=e.clientX+10+"px";
       preview.style.top=e.clientY-80+"px";
       previewVideo.src=`./videos/${cmd.video}`;
+      previewVideo.play().catch(()=>{});
     };
 
     el.onmouseleave=()=>{
