@@ -8,18 +8,18 @@ const hand = document.getElementById("hand");
 const hand2 = document.getElementById("hand2");
 const clock = document.getElementById("clock");
 
-/* 제목 */
+/* TITLE MOVE */
 setTimeout(()=>{
   document.getElementById("introTitle").classList.add("shrink");
 },1000);
 
-/* 영상 자동재생 */
+/* VIDEO */
 function play(v){
   v.muted=true;
   v.play().catch(()=>{});
 }
 
-/* 감시카메라 */
+/* SIDE VIDEO */
 function build(target){
   for(let i=0;i<8;i++){
     const v=document.createElement("video");
@@ -38,7 +38,7 @@ function build(target){
 build(leftSide);
 build(rightSide);
 
-/* grid 5줄 */
+/* GRID 5 */
 [10,30,50,70,90].forEach(p=>{
   const l=document.createElement("div");
   l.className="grid-line";
@@ -46,7 +46,7 @@ build(rightSide);
   grid.appendChild(l);
 });
 
-/* 시계 */
+/* CLOCK */
 const angles={
   aligning:30,
   waiting:60,
@@ -56,10 +56,10 @@ const angles={
 };
 
 function setHand(type){
-  hand.style.transform=`translate(-50%,-100%) rotate(${angles[type]||180}deg)`;
+  hand.style.transform=`translate(-50%,-100%) rotate(${angles[type]}deg)`;
 }
 
-/* 초침 */
+/* SECOND HAND */
 function tick(){
   const d=new Date();
   hand2.style.transform=`translate(-50%,-100%) rotate(${d.getSeconds()*6}deg)`;
@@ -67,22 +67,25 @@ function tick(){
 }
 tick();
 
-/* 중앙 3열 */
-const cols=[40,50,60];
+/* COMMAND */
+const center = window.innerWidth/2;
+const cols=[center-110, center, center+110];
 
 COMMANDS.forEach(cmd=>{
   const el=document.createElement("div");
   el.className="command";
 
-  const col=cols[Math.floor(Math.random()*3)];
-
-  el.style.left=(window.innerWidth*(col/100))+"px";
+  el.style.left=cols[Math.floor(Math.random()*3)]+"px";
   el.style.top=(600+Math.random()*5000)+"px";
 
   el.innerHTML=`
-    <div class="cmd-id">#${cmd.id}</div>
-    <div class="cmd-text">${cmd.text}</div>
-    <div class="meta">${cmd.time}</div>
+    <div class="command-inner">
+      <div class="cmd-id">#${cmd.id}</div>
+      <div class="cmd-text">${cmd.text}</div>
+      <div class="meta">
+        ${cmd.time} / ${cmd.bodyEngagement} / ${cmd.context}
+      </div>
+    </div>
   `;
 
   el.onmouseenter=(e)=>{
@@ -97,12 +100,10 @@ COMMANDS.forEach(cmd=>{
     preview.style.left=x+"px";
     preview.style.top=y+"px";
 
-    if(!pv.src.includes(cmd.video)){
-      pv.src="./videos/"+cmd.video;
-      pv.load();
-    }
-
+    pv.src="./videos/"+cmd.video;
+    pv.load();
     play(pv);
+
     clock.classList.add("active");
     setHand(cmd.time);
   };
