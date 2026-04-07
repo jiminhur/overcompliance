@@ -8,9 +8,31 @@ body{
   font-family:"IBM Plex Mono", monospace;
   background:#a9a9a9;
   min-height:10000px;
+  overflow-x:hidden;
 }
 
-/* 🔥 감시카메라 */
+/* title */
+#introTitle{
+  position:fixed;
+  top:50%;
+  left:50%;
+  transform:translate(-50%,-50%);
+  z-index:3000;
+  transition:1s;
+}
+
+#introTitle.shrink{
+  top:20px;
+  transform:translate(-50%,0);
+}
+
+.title-bg{
+  background:#000;
+  color:#fff;
+  padding:10px;
+}
+
+/* side cameras */
 .side{
   position:fixed;
   top:0;
@@ -18,115 +40,127 @@ body{
   height:100vh;
   display:flex;
   flex-direction:column;
-  overflow:hidden;
 }
 
 .side video{
   width:100%;
   height:12.5vh;
   object-fit:cover;
-  opacity:0.35;
+  opacity:0.3;
 }
 
-/* 🔥 grid (3줄만) */
+/* grid */
 #grid{
   position:fixed;
   inset:0;
-  z-index:5;
+  z-index:10;
 }
 
 .grid-line{
   position:absolute;
   width:1px;
   height:100vh;
-  background:rgba(32,71,255,0.2);
+  background:rgba(32,71,255,0.12);
 }
 
-/* 🔥 commands 중앙 3열 */
+/* commands */
 #commands{
   position:relative;
-  width:100%;
   z-index:100;
 }
 
 .command{
   position:absolute;
-  width:240px;
-  color:#fff;
+  width:260px;
+  font-size:11px;
 }
 
 /* 번호 */
 .cmd-id{
   font-size:9px;
-  opacity:0.6;
+  opacity:0.5;
   margin-bottom:4px;
 }
 
 /* 텍스트 */
 .cmd-text{
-  background:rgba(0,0,0,0.75);
-  padding:6px;
   margin-bottom:6px;
 }
 
-/* 🔥 메타 클릭 가능 */
+/* 🔥 메타데이터 박스 */
 .meta-box{
-  background:#fff;
-  color:#000;
+  background:#ffffff;
   border:1px solid var(--blue);
   padding:6px;
   font-size:9px;
-  cursor:pointer;
+  line-height:1.4;
 }
 
-/* 🔥 hover 시 강조 */
-.command:hover{
-  outline:1px solid var(--blue);
+/* preview */
+#preview{
+  position:fixed;
+  width:200px;
+  display:none;
+  z-index:2000;
 }
 
-/* 🔥 시계 */
+#preview video{width:100%;}
+
+/* clock */
 .clock{
   position:fixed;
   top:50%;
   left:50%;
   transform:translate(-50%,-50%);
-  pointer-events:none;
 }
 
 .ring{
-  width:320px;
-  height:320px;
-  border-radius:50%;
+  width:300px;
+  height:300px;
   border:1px solid var(--blue);
+  border-radius:50%;
+  position:relative;
+}
+
+.clock-fill{
+  position:absolute;
+  inset:0;
+  background:var(--blue);
   opacity:0;
-  transition:0.3s;
+  border-radius:50%;
+  transition:.3s;
 }
 
-.clock.active .ring{
-  opacity:0.25;
+.clock.active .clock-fill{
+  opacity:0.1;
 }
 
-.hand{
+.hand,.hand2{
   position:absolute;
   top:50%;
   left:50%;
   width:2px;
-  height:120px;
-  background:var(--blue);
   transform-origin:50% 100%;
 }
 
-/* 🔥 preview */
-#preview{
-  position:fixed;
-  width:220px;
-  display:none;
-  pointer-events:none;
-  z-index:3000;
+.hand{height:120px;background:var(--blue);}
+.hand2{height:80px;background:red;}
+
+/* cube */
+.cube{
+  width:300px;
+  height:200px;
+  margin:200px auto;
+  transform-style:preserve-3d;
 }
 
-#preview video{
+.face{
+  position:absolute;
+  inset:0;
+}
+
+.face video{
   width:100%;
-  border:1px solid var(--blue);
-  background:#000;
+  height:100%;
+  object-fit:cover;
 }
