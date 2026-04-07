@@ -1,5 +1,5 @@
 /* ========================= */
-/* 기존 유지 */
+/* 기본 */
 /* ========================= */
 
 const introTitle = document.getElementById("introTitle");
@@ -9,52 +9,50 @@ const grid = document.getElementById("grid");
 const commandsEl = document.getElementById("commands");
 const preview = document.getElementById("preview");
 const previewVideo = preview.querySelector("video");
-const hand = document.getElementById("hand");
-const hand2 = document.getElementById("hand2");
-const cubeScene = document.querySelector(".cube-scene");
-const countEl = document.getElementById("count");
-const progressLeft = document.getElementById("progressLeft");
-const progressRight = document.getElementById("progressRight");
-
-const typeAngles = {
-  all: 180,
-  aligning: 30,
-  waiting: 60,
-  executing: 90,
-  suppressing: 120,
-  drifting: 150
-};
+const hand = document.getElementById("hand");   // 분침
+const hand2 = document.getElementById("hand2"); // 초침
 
 let currentFilter = "all";
 let redAngle = 0;
-let bottomCount = 0;
 
+/* ========================= */
 /* intro */
+/* ========================= */
+
 setTimeout(() => {
   introTitle.classList.add("shrink");
 }, 1000);
 
 /* ========================= */
-/* 감시 카메라 (유지) */
+/* 🔥 감시카메라 (시차 포함) */
 /* ========================= */
 
 function buildSideColumn(target){
   target.innerHTML = "";
+
   for(let i=0;i<8;i++){
     const v = document.createElement("video");
+
     v.src = "./videos/swipetounlock_1.mp4";
     v.autoplay = true;
     v.muted = true;
     v.loop = true;
     v.playsInline = true;
+
+    // 🔥 시차
+    v.addEventListener("loadedmetadata", () => {
+      v.currentTime = i * 0.25;
+    });
+
     target.appendChild(v);
   }
 }
+
 buildSideColumn(leftSide);
 buildSideColumn(rightSide);
 
 /* ========================= */
-/* GRID 유지 */
+/* GRID */
 /* ========================= */
 
 function drawGrid(){
@@ -69,44 +67,53 @@ function drawGrid(){
 drawGrid();
 
 /* ========================= */
-/* 시계 유지 */
+/* 🔥 시계 */
 /* ========================= */
+
+const typeAngles = {
+  all: 180,
+  aligning: 30,
+  waiting: 60,
+  executing: 90,
+  suppressing: 120,
+  drifting: 150
+};
 
 function moveBlueHand(type){
   const angle = typeAngles[type] ?? 180;
+  hand.style.transition = "transform 0.5s ease";
   hand.style.transform = `translate(-50%, -100%) rotate(${angle}deg)`;
 }
 
+/* 초침 */
 function animateRedHand(){
-  redAngle += 0.1;
+  redAngle += 0.4;
   hand2.style.transform = `translate(-50%, -100%) rotate(${redAngle}deg)`;
   requestAnimationFrame(animateRedHand);
 }
 animateRedHand();
 
 /* ========================= */
-/* FILTER 유지 */
+/* FILTER */
 /* ========================= */
 
-const filterButtons = Array.from(document.querySelectorAll(".filter-chip"));
-
-function updateFilterButtons(){
-  filterButtons.forEach(btn => {
-    btn.classList.toggle("active", btn.dataset.type === currentFilter);
-  });
-}
+const filterButtons = document.querySelectorAll(".filter-chip");
 
 filterButtons.forEach(btn => {
   btn.addEventListener("click", () => {
+
     currentFilter = btn.dataset.type.toLowerCase();
-    updateFilterButtons();
-    moveBlueHand(currentFilter);
+
+    filterButtons.forEach(b => b.classList.remove("active"));
+    btn.classList.add("active");
+
+    moveBlueHand(currentFilter); // 🔥 분침 이동
     renderCommands();
   });
 });
 
 /* ========================= */
-/* 🔥 COMMAND (핵심 수정) */
+/* 🔥 COMMAND (중앙 + 박스) */
 /* ========================= */
 
 function renderCommands(){
@@ -141,6 +148,7 @@ function renderCommands(){
 
     const cmdType = (cmd.time || "").toLowerCase().trim();
 
+    // 🔥 필터
     if(currentFilter !== "all" && cmdType !== currentFilter){
       el.classList.add("dim");
     }
@@ -148,12 +156,12 @@ function renderCommands(){
     el.style.left = `${x}px`;
     el.style.top = `${y}px`;
 
-    /* 🔥 구조 수정 */
     el.innerHTML = `
       <div class="text">${cmd.text}</div>
       <div class="meta">${cmd.time} · ${cmd.context} · ${cmd.action}</div>
     `;
 
+    /* hover */
     el.addEventListener("mouseenter", (e) => {
 
       el.classList.add("active");
@@ -180,12 +188,6 @@ function renderCommands(){
   });
 }
 
-updateFilterButtons();
+/* 초기 */
 moveBlueHand("all");
 renderCommands();
-
-/* ========================= */
-/* 큐브 / 카운터 / 스피커 그대로 유지 */
-/* ========================= */
-
-/* 기존 코드 그대로 두면 됨 */
