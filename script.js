@@ -1,3 +1,11 @@
+const introTitle = document.getElementById("introTitle");
+
+window.addEventListener("load", ()=>{
+  setTimeout(()=>{
+    introTitle.classList.add("shrink");
+  }, 800);
+});
+
 const leftSide = document.getElementById("leftSide");
 const rightSide = document.getElementById("rightSide");
 const grid = document.getElementById("grid");
