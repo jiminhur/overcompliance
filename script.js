@@ -12,19 +12,24 @@ let currentFilter = "all";
 let redAngle = 0;
 
 /* TITLE */
-window.onload = ()=>{
-  setTimeout(()=> introTitle.classList.add("shrink"),800);
-};
+setTimeout(()=>{
+  introTitle.classList.add("shrink");
+},800);
 
 /* CAM */
 function buildSide(target){
+
+  target.innerHTML="";
+
   for(let i=0;i<8;i++){
+
     const v=document.createElement("video");
+
     v.src="./videos/swipetounlock_1.mp4";
     v.autoplay=true;
     v.muted=true;
     v.loop=true;
-    v.playsInline=true;
+
     v.setAttribute("playsinline","");
     v.setAttribute("webkit-playsinline","");
 
@@ -36,22 +41,27 @@ function buildSide(target){
     target.appendChild(v);
   }
 }
+
 buildSide(leftSide);
 buildSide(rightSide);
 
 /* CLOCK */
 const angles={
-  all:180,aligning:30,waiting:60,
-  executing:90,suppressing:120,drifting:150
+  all:180,
+  aligning:30,
+  waiting:60,
+  executing:90,
+  suppressing:120,
+  drifting:150
 };
 
 function moveHand(t){
-  hand.style.transform=`translate(-50%,-50%) rotate(${angles[t]}deg)`;
+  hand.style.transform=`translate(-50%,-100%) rotate(${angles[t]}deg)`;
 }
 
 function red(){
   redAngle+=0.5;
-  hand2.style.transform=`translate(-50%,-50%) rotate(${redAngle}deg)`;
+  hand2.style.transform=`translate(-50%,-100%) rotate(${redAngle}deg)`;
   requestAnimationFrame(red);
 }
 red();
@@ -59,7 +69,7 @@ red();
 /* FILTER */
 document.querySelectorAll(".filter-chip").forEach(btn=>{
   btn.onclick=()=>{
-    currentFilter=btn.dataset.type;
+    currentFilter=btn.dataset.type.toLowerCase();
     document.querySelectorAll(".filter-chip").forEach(b=>b.classList.remove("active"));
     btn.classList.add("active");
     moveHand(currentFilter);
@@ -69,14 +79,18 @@ document.querySelectorAll(".filter-chip").forEach(btn=>{
 
 /* COMMAND */
 function render(){
+
   commandsEl.innerHTML="";
   const cx=window.innerWidth*0.5;
 
   COMMANDS.forEach(cmd=>{
+
     const el=document.createElement("div");
     el.className="command";
 
-    if(currentFilter!=="all" && cmd.time!==currentFilter){
+    const type=(cmd.time||"").toLowerCase().trim();
+
+    if(currentFilter!=="all" && type!==currentFilter){
       el.classList.add("dim");
     }
 
@@ -94,10 +108,10 @@ function render(){
       preview.style.display="block";
       preview.style.left=e.clientX+10+"px";
       preview.style.top=e.clientY-80+"px";
+
       previewVideo.src=`./videos/${cmd.video}`;
       previewVideo.play().catch(()=>{});
 
-      /* 🔥 시계 등장 */
       clock.classList.add("active");
     };
 
