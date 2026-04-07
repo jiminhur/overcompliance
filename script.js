@@ -1,20 +1,20 @@
+/* ========================= */
+/* 기존 그대로 유지 */
+/* ========================= */
+
 const introTitle = document.getElementById("introTitle");
 const leftSide = document.getElementById("leftSide");
 const rightSide = document.getElementById("rightSide");
 const grid = document.getElementById("grid");
 const commandsEl = document.getElementById("commands");
 const preview = document.getElementById("preview");
-const previewVideo = document.getElementById("previewVideo");
-const ring = document.getElementById("ring");
-const minuteHand = document.getElementById("minuteHand");
-const secondHand = document.getElementById("secondHand");
-const cubeTopVideo = document.getElementById("cubeTopVideo");
-const cubeBottomVideo = document.getElementById("cubeBottomVideo");
+const hand = document.getElementById("hand");
+const hand2 = document.getElementById("hand2");
+const cube = document.getElementById("cube");
+const cubeScene = document.querySelector(".cube-scene");
 const countEl = document.getElementById("count");
 const progressLeft = document.getElementById("progressLeft");
 const progressRight = document.getElementById("progressRight");
-const soundToggle = document.getElementById("soundToggle");
-const bottomSection = document.getElementById("bottomSection");
 
 const typeAngles = {
   all: 180,
@@ -26,63 +26,34 @@ const typeAngles = {
 };
 
 let currentFilter = "all";
-let targetMinuteAngle = typeAngles.all;
-let displayedMinuteAngle = typeAngles.all;
-let secondAngle = 0;
-let soundOn = false;
-let countValue = 0;
+let redAngle = 0;
+let bottomCount = 0;
 
-/* autoplay */
-function forcePlayVideos(){
-  document.querySelectorAll("video").forEach((v) => {
-    v.muted = !soundOn;
-    v.setAttribute("playsinline", "");
-    v.setAttribute("autoplay", "");
-    const tryPlay = () => v.play().catch(() => {});
-    tryPlay();
-    setTimeout(tryPlay, 250);
-    setTimeout(tryPlay, 700);
-    setTimeout(tryPlay, 1400);
-  });
-}
-
-window.addEventListener("load", forcePlayVideos);
-
-/* title */
+/* intro */
 setTimeout(() => {
   introTitle.classList.add("shrink");
 }, 1000);
 
-/* cctv */
+/* sides */
 function buildSideColumn(target){
   target.innerHTML = "";
-
-  for(let i = 0; i < 8; i++){
+  for(let i=0;i<8;i++){
     const v = document.createElement("video");
     v.src = "./videos/swipetounlock_1.mp4";
     v.autoplay = true;
     v.muted = true;
     v.loop = true;
     v.playsInline = true;
-
-    v.addEventListener("loadeddata", () => {
-      if (Number.isFinite(v.duration) && v.duration > 0) {
-        v.currentTime = (i * (0.2 + Math.random() * 0.2)) % v.duration;
-      }
-      v.play().catch(() => {});
-    });
-
     target.appendChild(v);
   }
 }
-
 buildSideColumn(leftSide);
 buildSideColumn(rightSide);
 
 /* grid */
 function drawGrid(){
   grid.innerHTML = "";
-  for(let i = 0; i < 6; i++){
+  for(let i=0;i<6;i++){
     const line = document.createElement("div");
     line.className = "grid-line";
     line.style.left = `${(window.innerWidth / 6) * i}px`;
@@ -91,22 +62,19 @@ function drawGrid(){
 }
 drawGrid();
 
-/* clock */
-function setMinuteTarget(type){
-  targetMinuteAngle = typeAngles[type] ?? 180;
+/* hands */
+function moveBlueHand(type){
+  const angle = typeAngles[type] ?? 180;
+  hand.style.transition = "transform 0.6s ease";
+  hand.style.transform = `translate(-50%, -100%) rotate(${angle}deg)`;
 }
 
-function animateClock(){
-  secondAngle += 0.9;
-  secondHand.style.transform = `translate(-50%, -100%) rotate(${secondAngle}deg)`;
-
-  const diff = targetMinuteAngle - displayedMinuteAngle;
-  displayedMinuteAngle += diff * 0.08 + Math.sin(Date.now() * 0.01) * 0.05;
-  minuteHand.style.transform = `translate(-50%, -100%) rotate(${displayedMinuteAngle}deg)`;
-
-  requestAnimationFrame(animateClock);
+function animateRedHand(){
+  redAngle += 0.1;
+  hand2.style.transform = `translate(-50%, -100%) rotate(${redAngle}deg)`;
+  requestAnimationFrame(animateRedHand);
 }
-animateClock();
+animateRedHand();
 
 /* filters */
 const filterButtons = Array.from(document.querySelectorAll(".filter-chip"));
@@ -121,7 +89,7 @@ filterButtons.forEach(btn => {
   btn.addEventListener("click", () => {
     currentFilter = btn.dataset.type;
     updateFilterButtons();
-    setMinuteTarget(currentFilter);
+    moveBlueHand(currentFilter);
     renderCommands();
   });
 });
@@ -129,71 +97,52 @@ filterButtons.forEach(btn => {
 /* commands */
 function renderCommands(){
   commandsEl.innerHTML = "";
+  const placed = [];
 
-  const columnXs = ["col-1", "col-2", "col-3"];
-  const topStart = 220;
-  const bottomLimit = 7600;
-  const verticalGapMin = 220;
-  const usedY = [[], [], []];
+  const centerStart = window.innerWidth * 0.2;
+  const centerWidth = window.innerWidth * 0.6;
+  const safeTop = window.innerHeight * 0.68;
+  const safeBottom = document.body.scrollHeight - 2100;
 
-  function getYForColumn(colIndex){
-    let y, tries = 0;
-    do{
-      y = topStart + Math.random() * (bottomLimit - topStart);
-      tries++;
-    } while (
-      usedY[colIndex].some(prev => Math.abs(prev - y) < verticalGapMin) &&
-      tries < 100
-    );
-    usedY[colIndex].push(y);
-    return y;
+  function overlaps(x, y){
+    return placed.some(p => Math.abs(p.x - x) < 300 && Math.abs(p.y - y) < 430);
   }
 
-  COMMANDS.forEach((cmd, i) => {
-    const colIndex = i % 3;
+  COMMANDS.forEach(cmd => {
+    let x, y, tries = 0;
+
+    do{
+      x = centerStart + Math.random() * centerWidth;
+      y = safeTop + Math.random() * (safeBottom - safeTop);
+      tries++;
+    } while (overlaps(x, y) && tries < 60);
+
+    placed.push({x, y});
+
     const el = document.createElement("div");
-    el.className = `command ${columnXs[colIndex]}`;
+    el.className = "command";
 
     if(currentFilter !== "all" && cmd.time !== currentFilter){
       el.classList.add("dim");
     }
 
-    const idx = String(i + 1).padStart(2, "0");
-    el.style.top = `${getYForColumn(colIndex)}px`;
+    el.style.left = `${x}px`;
+    el.style.top = `${y}px`;
 
     el.innerHTML = `
-      <div class="cmd-index">#${idx}</div>
-      <div class="cmd-text">${cmd.text}</div>
+      <div>${cmd.text}</div>
       <div class="meta">${cmd.time} · ${cmd.context} · ${cmd.action}</div>
     `;
 
     el.addEventListener("mouseenter", (e) => {
-      document.body.classList.add("invert");
-      ring.classList.add("active");
-
       preview.style.display = "block";
-      previewVideo.src = `./videos/${cmd.video}`;
-      previewVideo.play().catch(() => {});
       preview.style.left = `${Math.min(window.innerWidth - 230, e.clientX + 10)}px`;
       preview.style.top = `${Math.max(20, e.clientY - 80)}px`;
-    });
-
-    el.addEventListener("mousemove", (e) => {
-      preview.style.left = `${Math.min(window.innerWidth - 230, e.clientX + 10)}px`;
-      preview.style.top = `${Math.max(20, e.clientY - 80)}px`;
+      preview.querySelector("video").src = `./videos/${cmd.video}`;
     });
 
     el.addEventListener("mouseleave", () => {
-      document.body.classList.remove("invert");
-      ring.classList.remove("active");
       preview.style.display = "none";
-    });
-
-    el.addEventListener("click", () => {
-      currentFilter = cmd.time;
-      updateFilterButtons();
-      setMinuteTarget(cmd.time);
-      renderCommands();
     });
 
     commandsEl.appendChild(el);
@@ -201,59 +150,90 @@ function renderCommands(){
 }
 
 updateFilterButtons();
-setMinuteTarget("all");
+moveBlueHand("all");
 renderCommands();
 
-/* cube videos */
-function initCubeVideos(){
-  cubeBottomVideo.addEventListener("loadedmetadata", () => {
-    if (Number.isFinite(cubeBottomVideo.duration) && cubeBottomVideo.duration > 0) {
-      cubeBottomVideo.currentTime = 0.35;
-    }
-  });
-}
-initCubeVideos();
+/* ========================= */
+/* 🔥 큐브 (수정 버전) */
+/* ========================= */
 
-/* bottom scroll-driven motion */
-function updateBottomSection(){
-  const rect = bottomSection.getBoundingClientRect();
-  const vh = window.innerHeight;
+const frontVideo = document.getElementById("frontVideo");
+const backVideo = document.getElementById("backVideo");
 
-  const start = vh * 0.15;
-  const end = rect.height - vh * 0.55;
-  const progressed = Math.min(Math.max(start - rect.top, 0), end);
-  const progress = end > 0 ? progressed / end : 0;
+/* 위치 유지 */
+frontVideo.style.top = "0%";
+backVideo.style.top = "-50%";
 
-  const offset = progress * 140;
-
-  cubeTopVideo.style.transform = `translateY(${offset}px)`;
-  cubeBottomVideo.style.transform = `translateY(${-offset}px)`;
-
-  countValue = Math.floor(progress * 36);
-  countEl.textContent = String(countValue).padStart(2, "0");
-
-  const w = Math.min(countValue * 4.5, 160);
-  progressLeft.style.width = `${w}px`;
-  progressRight.style.width = `${w}px`;
-}
-
-window.addEventListener("scroll", updateBottomSection);
-window.addEventListener("resize", () => {
-  drawGrid();
-  renderCommands();
-  updateBottomSection();
+/* 시간차 */
+backVideo.addEventListener("loadedmetadata", () => {
+  backVideo.currentTime = 0.3;
 });
 
-/* sound */
-soundToggle.addEventListener("click", () => {
+/* 등장 */
+window.addEventListener("scroll", () => {
+  const triggerPoint = document.body.scrollHeight - window.innerHeight - 500;
+  cubeScene.classList.toggle("active", window.scrollY > triggerPoint);
+});
+
+/* 🔥 부드럽게 (과한 회전 제거) */
+let flow = 0;
+
+function animateCubeFlow(){
+  flow += 0.15; // 🔥 낮춤 (핵심)
+
+  frontVideo.style.transform = `translateY(${flow}px)`;
+  backVideo.style.transform = `translateY(${-flow}px)`;
+
+  if(flow > 200){
+    flow = 0;
+  }
+
+  requestAnimationFrame(animateCubeFlow);
+}
+
+animateCubeFlow();
+
+/* ========================= */
+/* 🔥 counter 복구 */
+/* ========================= */
+
+let fakeScroll = 0;
+
+window.addEventListener("wheel", (e) => {
+  const triggerPoint = document.body.scrollHeight - window.innerHeight - 500;
+
+  if(window.scrollY > triggerPoint){
+    fakeScroll += e.deltaY * 0.05;
+
+    const count = Math.floor(Math.abs(fakeScroll));
+
+    if(count !== bottomCount){
+      bottomCount = count;
+
+      countEl.textContent = String(bottomCount).padStart(2, "0");
+
+      const width = Math.min(bottomCount * 8, 160);
+      progressLeft.style.width = `${width}px`;
+      progressRight.style.width = `${width}px`;
+    }
+  }
+});
+
+/* ========================= */
+/* 🔥 speaker */
+/* ========================= */
+
+const toggle = document.getElementById("soundToggle");
+let soundOn = false;
+
+const cubeVideos = document.querySelectorAll(".cube video");
+
+toggle.addEventListener("click", () => {
   soundOn = !soundOn;
-  document.querySelectorAll("video").forEach(v => {
-    v.muted = !soundOn;
-    if (soundOn) {
-      v.play().catch(() => {});
-    }
-  });
-  soundToggle.textContent = soundOn ? "speaker on" : "speaker off";
-});
 
-updateBottomSection();
+  cubeVideos.forEach(v => {
+    v.muted = !soundOn;
+  });
+
+  toggle.textContent = soundOn ? "speaker on" : "speaker off";
+});
