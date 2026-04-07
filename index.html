@@ -11,42 +11,72 @@
 
 <body>
 
-  <!-- title -->
-  <div id="introTitle">
+  <!-- ========================= -->
+  <!-- TITLE (최상단 레이어) -->
+  <!-- ========================= -->
+  <header id="introTitle">
     <div class="title-bg">
       <div class="main-title">TERMS AND CONDITIONS</div>
       <div class="sub-title">A COLLECTION OF EVERYDAY COMMANDS</div>
     </div>
-  </div>
+  </header>
 
-  <!-- CCTV -->
+
+  <!-- ========================= -->
+  <!-- CCTV SIDE -->
+  <!-- ========================= -->
   <div class="side left" id="leftSide"></div>
   <div class="side right" id="rightSide"></div>
 
-  <!-- filter (위치 내려줌) -->
-  <div class="filter-panel">
+
+  <!-- ========================= -->
+  <!-- FILTER (title 아래로 고정) -->
+  <!-- ========================= -->
+  <nav class="filter-panel">
     <button class="filter-chip active" data-type="all">ALL</button>
     <button class="filter-chip" data-type="aligning">ALIGNING</button>
     <button class="filter-chip" data-type="waiting">WAITING</button>
     <button class="filter-chip" data-type="executing">EXECUTING</button>
     <button class="filter-chip" data-type="suppressing">SUPPRESSING</button>
     <button class="filter-chip" data-type="drifting">DRIFTING</button>
+  </nav>
+
+
+  <!-- ========================= -->
+  <!-- CLOCK (중앙 시스템) -->
+  <!-- ========================= -->
+  <div class="clock">
+    <div class="ring"></div>
   </div>
 
-  <!-- 🔥 원 삭제됨 -->
 
+  <!-- ========================= -->
+  <!-- GRID -->
+  <!-- ========================= -->
   <div id="grid"></div>
+
+
+  <!-- ========================= -->
+  <!-- COMMANDS -->
+  <!-- ========================= -->
   <main id="commands"></main>
 
-  <!-- preview -->
+
+  <!-- ========================= -->
+  <!-- PREVIEW -->
+  <!-- ========================= -->
   <div id="preview">
     <div class="preview-frame">
       <video autoplay muted loop playsinline></video>
     </div>
   </div>
 
-  <!-- cube -->
+
+  <!-- ========================= -->
+  <!-- BOTTOM (CUBE) -->
+  <!-- ========================= -->
   <section class="bottom-section">
+
     <div class="cube-scene">
       <div class="cube">
 
@@ -68,12 +98,21 @@
       <div class="counter-box" id="count">00</div>
       <div class="progress-fill" id="progressRight"></div>
     </div>
+
   </section>
 
-  <!-- 🔥 speaker -->
+
+  <!-- ========================= -->
+  <!-- SPEAKER -->
+  <!-- ========================= -->
   <div id="soundToggle">speaker off</div>
 
+
+  <!-- ========================= -->
+  <!-- SCRIPTS -->
+  <!-- ========================= -->
   <script src="data.js"></script>
   <script src="script.js"></script>
+
 </body>
 </html>
