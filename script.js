@@ -1,68 +1,48 @@
 const introTitle = document.getElementById("introTitle");
-
-window.addEventListener("load", ()=>{
-  setTimeout(()=>{
-    introTitle.classList.add("shrink");
-  }, 800);
-});
-
 const leftSide = document.getElementById("leftSide");
 const rightSide = document.getElementById("rightSide");
-const grid = document.getElementById("grid");
 const commandsEl = document.getElementById("commands");
 const preview = document.getElementById("preview");
 const previewVideo = preview.querySelector("video");
 const hand = document.getElementById("hand");
 const hand2 = document.getElementById("hand2");
+const clock = document.querySelector(".clock");
 
 let currentFilter = "all";
 let redAngle = 0;
 
-/* 🔥 감시카메라 */
+/* TITLE */
+window.onload = ()=>{
+  setTimeout(()=> introTitle.classList.add("shrink"),800);
+};
+
+/* CAM */
 function buildSide(target){
-
   for(let i=0;i<8;i++){
-
-    const v = document.createElement("video");
-
-    v.src = "./videos/swipetounlock_1.mp4";
-
-    v.autoplay = true;
-    v.muted = true;
-    v.loop = true;
-    v.playsInline = true;
-
+    const v=document.createElement("video");
+    v.src="./videos/swipetounlock_1.mp4";
+    v.autoplay=true;
+    v.muted=true;
+    v.loop=true;
+    v.playsInline=true;
     v.setAttribute("playsinline","");
     v.setAttribute("webkit-playsinline","");
 
     v.addEventListener("loadedmetadata",()=>{
-      v.currentTime = i * 0.25;
+      v.currentTime=i*0.25;
       v.play().catch(()=>{});
     });
 
     target.appendChild(v);
   }
 }
-
 buildSide(leftSide);
 buildSide(rightSide);
 
-/* GRID */
-for(let i=0;i<24;i++){
-  const line=document.createElement("div");
-  line.className="grid-line";
-  line.style.left=`${(i/24)*100}%`;
-  grid.appendChild(line);
-}
-
-/* 시계 */
+/* CLOCK */
 const angles={
-  all:180,
-  aligning:30,
-  waiting:60,
-  executing:90,
-  suppressing:120,
-  drifting:150
+  all:180,aligning:30,waiting:60,
+  executing:90,suppressing:120,drifting:150
 };
 
 function moveHand(t){
@@ -76,7 +56,7 @@ function red(){
 }
 red();
 
-/* 필터 */
+/* FILTER */
 document.querySelectorAll(".filter-chip").forEach(btn=>{
   btn.onclick=()=>{
     currentFilter=btn.dataset.type;
@@ -89,12 +69,10 @@ document.querySelectorAll(".filter-chip").forEach(btn=>{
 
 /* COMMAND */
 function render(){
-
   commandsEl.innerHTML="";
   const cx=window.innerWidth*0.5;
 
   COMMANDS.forEach(cmd=>{
-
     const el=document.createElement("div");
     el.className="command";
 
@@ -107,7 +85,7 @@ function render(){
 
     el.innerHTML=`
       <div>${cmd.text}</div>
-      <div style="font-size:9px; margin-top:6px; color:#ccc;">
+      <div style="font-size:9px;margin-top:6px;color:#ccc;">
         ${cmd.time} · ${cmd.context} · ${cmd.action}
       </div>
     `;
@@ -118,10 +96,14 @@ function render(){
       preview.style.top=e.clientY-80+"px";
       previewVideo.src=`./videos/${cmd.video}`;
       previewVideo.play().catch(()=>{});
+
+      /* 🔥 시계 등장 */
+      clock.classList.add("active");
     };
 
     el.onmouseleave=()=>{
       preview.style.display="none";
+      clock.classList.remove("active");
     };
 
     commandsEl.appendChild(el);
