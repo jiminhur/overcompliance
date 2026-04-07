@@ -1,16 +1,16 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Terms and Conditions</title>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Terms and Conditions</title>
 
-  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@300;400&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="style.css" />
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@300;400&display=swap" rel="stylesheet"/>
+<link rel="stylesheet" href="style.css" />
 </head>
+
 <body>
 
-<!-- TITLE -->
 <div id="introTitle">
   <div class="title-bg">
     <div class="main-title">TERMS AND CONDITIONS</div>
@@ -18,7 +18,9 @@
   </div>
 </div>
 
-<!-- FILTER -->
+<div class="side left" id="leftSide"></div>
+<div class="side right" id="rightSide"></div>
+
 <div class="filter-panel">
   <button class="filter-chip active" data-type="all">ALL</button>
   <button class="filter-chip" data-type="aligning">ALIGNING</button>
@@ -28,16 +30,19 @@
   <button class="filter-chip" data-type="drifting">DRIFTING</button>
 </div>
 
-<!-- GRID -->
-<div id="grid"></div>
+<div class="clock">
+  <div class="ring">
+    <div class="hand" id="hand"></div>
+    <div class="hand2" id="hand2"></div>
+  </div>
+</div>
 
-<!-- COMMANDS -->
+<div id="grid"></div>
 <main id="commands"></main>
 
-<!-- PREVIEW -->
 <div id="preview">
   <div class="preview-frame">
-    <video id="previewVideo" autoplay muted loop playsinline></video>
+    <video autoplay muted loop playsinline></video>
   </div>
 </div>
 
