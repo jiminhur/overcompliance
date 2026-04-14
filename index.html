@@ -1,80 +1,38 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>TERMS AND CONDITIONS</title>
-  <link rel="stylesheet" href="style.css">
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;1,300&display=swap" rel="stylesheet">
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/MotionPathPlugin.min.js"></script>
+  <meta charset="UTF-8" />
+  <title>Terms</title>
+  <link rel="stylesheet" href="style.css" />
 </head>
 <body>
- 
-  <!-- Loading screen -->
-  <div id="loading">
-    <div class="load-main">Terms and Conditions</div>
-    <div class="load-sub">A Collection of Everyday Commands</div>
-    <div class="load-bar"><span></span></div>
-  </div>
- 
-  <!-- Film grain + scanlines -->
-  <div id="noise"></div>
-  <div id="scanlines"></div>
- 
-  <!-- Hero titles (main screen, centered) -->
-  <div id="hero">
-    <h1 class="hero-main">Terms and Conditions</h1>
-    <p class="hero-sub">A Collection of Everyday Commands</p>
-  </div>
- 
-  <!-- Corner header -->
-  <header id="header">
-    <div class="header-inner">
-      <span class="h-title">Terms and Conditions</span>
-      <span class="h-sub">A Collection of Everyday Commands</span>
-    </div>
-  </header>
- 
-  <!-- Back / Exit button -->
-  <button id="back-btn">← Exit</button>
- 
-  <!-- Rotation wrapper for camera rotation effect -->
-  <div id="rotation-wrapper">
-    <div id="canvas-wrap">
-      <svg id="svg-canvas" xmlns="http://www.w3.org/2000/svg"></svg>
+
+  <!-- GRID -->
+  <div class="bg-grid"></div>
+
+  <!-- LOGO -->
+  <img src="image/background/logo.png" class="logo" id="logo" />
+
+  <!-- HALO -->
+  <img src="image/background/background_halo.png" class="halo" id="halo"/>
+
+  <!-- TOP IMAGE -->
+  <img src="image/background/background_image.png" class="bg-top" id="bgTop"/>
+
+  <!-- TERMS -->
+  <div class="scene" id="scene">
+    <div class="camera" id="camera">
+      <img src="image/term_paper.png" class="terms-img"/>
     </div>
   </div>
- 
-  <!-- Video overlay (bottom-right, persistent, large) -->
-  <div id="video-panel">
-    <div class="vp-frame">
-      <div class="vp-content">
-        <div class="vp-icon"><span></span></div>
-        <div class="vp-file" id="vp-file">video1.mp4</div>
-      </div>
-      <div class="vp-progress" id="vp-progress"></div>
-    </div>
-    <div class="vp-meta">
-      <span class="vp-cmd" id="vp-cmd"></span>
-      <span class="vp-id" id="vp-id">01</span>
-    </div>
+
+  <!-- POPUP -->
+  <div class="popup" id="popup">
+    <p>Do you agree to these conditions?</p>
+    <button>I AGREE</button>
+    <button>I AGREE</button>
   </div>
- 
-  <!-- Segment indicator (bottom-left) -->
-  <div id="seg-info">
-    <div class="si-id" id="si-id">01</div>
-    <div class="si-cat" id="si-cat">Align</div>
-    <div class="si-text" id="si-text"></div>
-  </div>
- 
-  <!-- Scroll hint -->
-  <div id="scroll-hint">Scroll to follow ↓</div>
- 
-  <!-- Cursor force indicator -->
-  <div id="cursor-ring"></div>
- 
+
   <script src="script.js"></script>
 </body>
 </html>
