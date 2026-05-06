@@ -1,38 +1,59 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <title>Terms</title>
-  <link rel="stylesheet" href="style.css" />
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+<title>THIS WEB DOES NOT COMPLY</title>
+<link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-  <!-- GRID -->
-  <div class="bg-grid"></div>
+<!-- ===== CINEMATIC LOADING SEQUENCE ===== -->
+<div id="loader">
+  <div id="ld-bg"></div>
+  <img id="ld-img" src="loadingpage_background_1.jpg" alt="">
+  <img id="ld-logo" src="This_Web_Does_Not_Comply_logo.png" alt="">
+  <div id="ld-pct">0%</div>
+</div>
 
-  <!-- LOGO -->
-  <img src="image/background/logo.png" class="logo" id="logo" />
+<header id="bar" class="hide">
+  <span class="bt">You enact everyday commands through:</span>
+  <span class="cw" data-c="Align">Align</span><span class="bc">,</span>
+  <span class="cw" data-c="Input">Input</span><span class="bc">,</span>
+  <span class="cw" data-c="Select">Select</span><span class="bc">,</span>
+  <span class="cw" data-c="Loop">Loop</span><span class="bc">,</span>
+  <span class="cw" data-c="Control">Control</span><span class="bc">,</span>
+  <span class="cw" data-c="Edge">Edge</span>
+  <span class="ba">&larr; Do not click the words.</span>
+</header>
 
-  <!-- HALO -->
-  <img src="image/background/background_halo.png" class="halo" id="halo"/>
+<!-- VERTICAL SCROLL CONTAINER -->
+<div id="sc" class="hide">
+  <div id="tall">
+    <!-- Dynamic sections inserted here by JS (top = furthest from start) -->
+    <div id="dyn"></div>
 
-  <!-- TOP IMAGE -->
-  <img src="image/background/background_image.png" class="bg-top" id="bgTop"/>
+    <!-- INDEX PAGE (uses Whole_content_index.jpg) -->
+    <section id="s-idx" class="idx-sec">
+      <img src="Whole_content_index.jpg" class="sec-bg" alt="">
+      <div class="idx-ctr">
+        <p class="idx-d">You enact everyday commands through:</p>
+        <div class="idx-g" id="idx-g"></div>
+      </div>
+    </section>
 
-  <!-- TERMS -->
-  <div class="scene" id="scene">
-    <div class="camera" id="camera">
-      <img src="image/term_paper.png" class="terms-img"/>
-    </div>
+    <!-- MAIN THEME PAGE (uses The_main_Page.jpg) -->
+    <section id="s-theme" class="theme-sec">
+      <img src="The_main_page.jpg" class="sec-bg" alt="">
+    </section>
+
+    <!-- MAIN BOTTOM PAGE (absolute bottom boundary) -->
+    <section id="s-bottom" class="bottom-sec">
+      <img src="Main_bottom.jpg" class="sec-bg" alt="">
+    </section>
   </div>
+</div>
 
-  <!-- POPUP -->
-  <div class="popup" id="popup">
-    <p>Do you agree to these conditions?</p>
-    <button>I AGREE</button>
-    <button>I AGREE</button>
-  </div>
-
-  <script src="script.js"></script>
+<script src="script.js"></script>
 </body>
 </html>
